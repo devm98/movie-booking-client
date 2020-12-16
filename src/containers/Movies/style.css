@@ -1,0 +1,7 @@
+.movie > p {
+  border: 1px solid ;
+  flex: 50%;
+  margin-right: 5px;
+  text-align: center;
+  padding: 5px;
+}
