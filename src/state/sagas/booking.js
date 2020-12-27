@@ -1,6 +1,10 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import actions from '../actions/booking';
-import { getMovieScheduleAction, getRoomAction } from '../api/booking';
+import {
+  getMovieScheduleAction,
+  getRoomAction,
+  getSeatBooked,
+} from '../../core/api/booking';
 
 function* getMovieSchedules({ payload }) {
   try {
@@ -29,7 +33,7 @@ function* getRooms({ payload }) {
     yield put({
       type: actions.GET_ROOM.SUCCESS,
       payload: {
-        data: results.data,
+        room: results.data,
       },
     });
   } catch (error) {
@@ -42,7 +46,28 @@ function* getRooms({ payload }) {
   }
 }
 
+function* getSeatBookedSaga({ payload }) {
+  try {
+    const results = yield call(getSeatBooked, payload);
+
+    yield put({
+      type: actions.GET_SEATS_BOOKED.SUCCESS,
+      payload: {
+        seatsBooked: results.data,
+      },
+    });
+  } catch (error) {
+    yield put({
+      type: actions.GET_SEATS_BOOKED.FAILURE,
+      payload: {
+        error: error.response || error.message,
+      },
+    });
+  }
+}
+
 export default function* bookingSaga() {
   yield takeLatest(actions.GET_MOVIE_SCHEDULE.REQUEST, getMovieSchedules);
   yield takeLatest(actions.GET_ROOM.REQUEST, getRooms);
+  yield takeLatest(actions.GET_SEATS_BOOKED.REQUEST, getSeatBookedSaga);
 }

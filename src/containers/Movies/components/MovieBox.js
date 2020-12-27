@@ -1,26 +1,14 @@
-import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  Form,
-  Modal,
-  Radio,
-  Spin,
-  Steps,
-  Tabs,
-} from 'antd';
+import { Button, Card, Col, Form, Modal, Radio, Spin, Steps, Tabs } from 'antd';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { Col as ColB, Container, Row, Table } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import actions from '../../../actions/booking';
-import { getMovieDetails, getMovieRecommends } from '../../../api/movies';
-import { GetDates } from '../../../utils/helpers';
+import { Link } from 'react-router-dom';
+import actions from '../../../state/actions/booking';
+import { getMovieDetails } from '../../../core/api/movies';
+import { GetDates } from '../../../core/helpers';
 import '../style.css';
-import { scheduleSelector, auditoriumSelector } from './selector';
-import MovieGrid from './MovieGrid';
-import MovieRoom from './MovieRoom';
+import { scheduleSelector } from './selector';
 
 const arrDay = GetDates(7);
 
@@ -28,25 +16,60 @@ function MovieBox(props) {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const schedules = useSelector(scheduleSelector);
-  const audi = useSelector(auditoriumSelector);
-  const [dated, setDated] = useState('');
+  const [dated, setDated] = useState(arrDay[0].dateKey);
   const { id, duration, releaseDate } = props;
   const [movie, setMovie] = useState({});
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(0);
-  const [movieRecommends, setMovieRecommends] = useState({});
-  const [loadingRe, setLoadingRe] = useState(true);
-  console.log(audi);
+
+  const handleShowMovieDetail = () => {
+    getMovieDetails(id)
+      .then((res) => {
+        setMovie(res.data);
+        if (res.status === 200) {
+          setLoading(false);
+        }
+      })
+      .catch((e) => console.log(e));
+    setVisible(true);
+  };
 
   const onChangeSchedule = (data) => {
+    const showingDate = `${dated} ${data.timeSchedule}:00`;
     dispatch(
       actions.getRooms({
         movieId: movie.id,
-        date: dated,
-        timeShowing: data.timeSchedule,
+        showingDate,
       })
     );
+  };
+
+  const handleSelectedSchedule = (key, movieId) => {
+    setDated(key);
+    dispatch(actions.getMovieSchedule({ date: key, type: '0', movieId }));
+  };
+
+  const handleCancel = () => {
+    setVisible(false);
+    setLoading(true);
+  };
+
+  const next = () => {
+    dispatch(
+      actions.getMovieSchedule({
+        date: arrDay[0].dateKey,
+        type: '0',
+        movieId: movie?.id,
+      })
+    );
+    const nextCurrent = current + 1;
+    setCurrent(nextCurrent);
+  };
+
+  const prev = () => {
+    const prevCurrent = current - 1;
+    setCurrent(prevCurrent);
   };
 
   const steps = [
@@ -103,7 +126,7 @@ function MovieBox(props) {
       ),
     },
     {
-      title: 'Đặt vé',
+      title: 'Chọn ngày và khung giờ',
       content: (movie) => (
         <Tabs
           onChange={(activeKey, movieId) =>
@@ -114,83 +137,32 @@ function MovieBox(props) {
           {arrDay.map((day, i) => (
             <Tabs.TabPane tab={day.dateVN} key={day.dateKey}>
               <Form form={form} onValuesChange={onChangeSchedule}>
-                <Form.Item label="Các khung giờ hiện có:" name="timeSchedule">
-                  <Radio.Group>
-                    {schedules.map((item, i) => {
-                      return (
-                        <Radio.Button
-                          style={{ marginRight: 10 }}
-                          key={i}
-                          value={item}
-                        >
-                          {item}
-                        </Radio.Button>
-                      );
-                    })}
-                  </Radio.Group>
-                </Form.Item>
+                {schedules.length > 0 ? (
+                  <Form.Item label="Các khung giờ hiện có:" name="timeSchedule">
+                    <Radio.Group>
+                      {schedules.map((item, i) => {
+                        return (
+                          <Radio.Button
+                            style={{ marginRight: 10 }}
+                            key={i}
+                            value={item}
+                          >
+                            {item}
+                          </Radio.Button>
+                        );
+                      })}
+                    </Radio.Group>
+                  </Form.Item>
+                ) : (
+                  'Ngày bạn chọn hiện chưa có lịch chiếu'
+                )}
               </Form>
-              {/* <MovieRoom /> */}
             </Tabs.TabPane>
           ))}
         </Tabs>
       ),
     },
-    {
-      title: 'Đặt vé thành công',
-      content: (movie) => <div></div>,
-    },
   ];
-
-  const handleShowMovieDetail = () => {
-    getMovieDetails(id)
-      .then((res) => {
-        setMovie(res.data);
-        if (res.status === 200) {
-          setLoading(false);
-        }
-      })
-
-      // recommend film
-      .catch((e) => console.log(e));
-    getMovieRecommends(id)
-      .then((res) => {
-        setMovieRecommends(res.data);
-        if (res.status === 200) {
-          setLoadingRe(false);
-        }
-      })
-      .catch((e) => console.log(e));
-
-    setVisible(true);
-  };
-
-  const handleSelectedSchedule = (key, movieId) => {
-    setDated(key);
-    dispatch(actions.getMovieSchedule({ date: key, type: '0', movieId }));
-  };
-
-  const handleCancel = () => {
-    setVisible(false);
-    setLoading(true);
-  };
-
-  const next = () => {
-    dispatch(
-      actions.getMovieSchedule({
-        date: arrDay[0].dateKey,
-        type: '0',
-        movieId: movie?.id,
-      })
-    );
-    const nextCurrent = current + 1;
-    setCurrent(nextCurrent);
-  };
-
-  const prev = () => {
-    const prevCurrent = current - 1;
-    setCurrent(prevCurrent);
-  };
 
   return (
     <>
@@ -247,17 +219,14 @@ function MovieBox(props) {
         footer={
           <div className="steps-action">
             {current < steps.length - 1 && (
-              // <div>
               <Button type="primary" onClick={(e) => next(e)}>
-                Tiến hành đặt vé
+                Chọn thời gian
               </Button>
-
-              // </div>
             )}
             {current === steps.length - 1 && (
-              <Button type="primary" onClick={() => handleCancel()}>
-                Done
-              </Button>
+              <Link to={`/seat-select/${id}`}>
+                <Button type="primary">Tiến hành đặt vé</Button>
+              </Link>
             )}
             {current > 0 && (
               <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
@@ -281,24 +250,6 @@ function MovieBox(props) {
         ) : (
           <Container fluid>
             <div className="steps-content">{steps[current].content(movie)}</div>
-            <Divider orientation="left">
-              <h4 style={{ color: 'red' }}>Có thể bạn sẽ thích</h4>
-            </Divider>
-            <div>
-              {loadingRe ? (
-                <div
-                  style={{
-                    textAlign: 'center',
-                  }}
-                >
-                  <Spin />
-                </div>
-              ) : (
-                <div>
-                  <MovieGrid movies={movieRecommends} />
-                </div>
-              )}
-            </div>
           </Container>
         )}
       </Modal>

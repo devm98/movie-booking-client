@@ -1,6 +1,6 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import actions from '../actions/movies';
-import { getComingSoon, getNowShowing } from '../api/movies';
+import { getComingSoon, getNowShowing } from '../../core/api/movies';
 
 function* getComingSoonMovie({ payload }) {
   try {

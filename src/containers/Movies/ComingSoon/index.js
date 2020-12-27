@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import MovieGrid from '../components/MovieGrid';
-import actions from '../../../actions/movies';
+import actions from '../../../state/actions/movies';
 import { useDispatch, useSelector } from 'react-redux';
 
 const { getComingSoonMovies } = actions;
 
-function ComingSoon(props) {
+function ComingSoon() {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -14,11 +14,7 @@ function ComingSoon(props) {
 
   const movies = useSelector((state) => state.movies.comingSoon.data);
 
-  const propsMovieGrid = {
-    movies,
-  };
-
-  return <MovieGrid {...propsMovieGrid} />;
+  return <MovieGrid movies={movies} />;
 }
 
 export default ComingSoon;

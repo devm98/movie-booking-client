@@ -3,9 +3,7 @@ import { Row } from 'antd';
 import MovieBox from './MovieBox';
 import moment from 'moment';
 
-function MovieGrid(props) {
-  const { movies } = props;
-
+function MovieGrid({ movies }) {
   return (
     <Row gutter={[16, 24]}>
       {movies?.map((movie) => (

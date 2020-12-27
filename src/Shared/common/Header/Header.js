@@ -1,20 +1,21 @@
-import { faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { faPhoneAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Divider } from "antd";
-import React from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import actions from "../../../actions/auth";
-import "./style.css";
+import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Divider } from 'antd';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
+import actions from '../../../state/actions/auth';
+import './style.css';
+import { isEmpty } from 'lodash';
 
 function Header() {
   const dispatch = useDispatch();
-
-  // cách này không nên làm vì bảo mật
   const handleLogout = () => {
     dispatch(actions.signOutActions());
   };
+
+  const userInfo = useSelector((state) => state?.auth?.userInfo);
 
   return (
     <>
@@ -22,7 +23,7 @@ function Header() {
         <div className="header-cinema_left">
           <a href="https://www.facebook.com/minhbdk">
             <FontAwesomeIcon
-              style={{ color: "#339af0", fontSize: 20 }}
+              style={{ color: '#339af0', fontSize: 20 }}
               icon={faFacebook}
             />
             Movies Updating Cinema
@@ -30,20 +31,20 @@ function Header() {
           <span
             style={{
               fontWeight: 600,
-              borderLeft: "2px solid",
+              borderLeft: '2px solid',
               paddingLeft: 15,
-              display: "flex",
-              alignItems: "center",
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
             <FontAwesomeIcon
               icon={faPhoneAlt}
               style={{
-                color: "red",
+                color: 'red',
                 fontSize: 20,
                 marginRight: 5,
-                borderRadius: "50%",
-                border: "1px solid",
+                borderRadius: '50%',
+                border: '1px solid',
                 padding: 3,
               }}
             />
@@ -51,7 +52,20 @@ function Header() {
           </span>
         </div>
         <div>
-          <Link to="/login"> Đăng nhập </Link>
+          {!isEmpty(userInfo) ? (
+            <p
+              style={{
+                display: 'inline-block',
+                marginRight: 8,
+                marginBottom: 0,
+              }}
+            >
+              {userInfo.username}
+            </p>
+          ) : (
+            <Link to="/login"> Đăng nhập </Link>
+          )}
+
           <Button type="link" onClick={handleLogout}>
             Đăng xuất
           </Button>
@@ -61,7 +75,7 @@ function Header() {
         <h2>MOVIES</h2>
         <h2>CINEMA</h2>
       </div>
-      <Divider style={{ background: "#cdc197", margin: 0, height: 5 }} />
+      <Divider style={{ background: '#cdc197', margin: 0, height: 5 }} />
       <div className="menu-bar">
         <ul>
           <li>

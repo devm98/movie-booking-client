@@ -1,4 +1,4 @@
-import apiService from '../utils/helpers/axiosService';
+import apiService from '../../core/helpers/axiosService';
 
 const urlComingSoon = '/home/movies/?query=coming-soon';
 const urlNowShowing = '/home/movies';

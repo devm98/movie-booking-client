@@ -1,5 +1,5 @@
 import { call, all, put, takeLatest } from 'redux-saga/effects';
-import { signInHandler } from '../api/auth';
+import { signInHandler } from '../../core/api/auth';
 import { createBrowserHistory } from 'history';
 import actions from '../actions/auth';
 import {
@@ -8,7 +8,7 @@ import {
   clearToken,
   getToken,
   loadState,
-} from '../utils/helpers';
+} from '../../core/helpers';
 
 const history = createBrowserHistory();
 
@@ -42,13 +42,13 @@ function* signIn({ payload }) {
 
 function* checkAuthentication() {
   try {
-    const [token, user] = yield all([getToken(), loadState('user_info')]);
+    const [token, userInfo] = yield all([getToken(), loadState('user_info')]);
     if (token) {
       yield put({
         type: actions.CHECK_AUTHENTICATION.SUCCESS,
         payload: {
           token,
-          user,
+          userInfo,
         },
       });
     } else {

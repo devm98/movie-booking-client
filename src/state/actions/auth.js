@@ -1,9 +1,9 @@
-import { actionCreator } from "../utils/helpers";
+import { actionCreator } from '../../core/helpers';
 
 const actions = {
-  SIGN_IN: actionCreator("SIGN_IN"),
-  CHECK_AUTHENTICATION: actionCreator("CHECK_AUTHENTICATION"),
-  SIGN_OUT: "SIGN_OUT",
+  SIGN_IN: actionCreator('SIGN_IN'),
+  CHECK_AUTHENTICATION: actionCreator('CHECK_AUTHENTICATION'),
+  SIGN_OUT: 'SIGN_OUT',
 
   signInActions: (data = {}) => {
     return {

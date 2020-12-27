@@ -4,7 +4,7 @@ const initState = {
   loading: false,
   idToken: false,
   error: false,
-  user: {},
+  userInfo: {},
 };
 
 const auth = (state = initState, { type, payload }) => {
@@ -15,12 +15,12 @@ const auth = (state = initState, { type, payload }) => {
         loading: true,
       };
     case actions.CHECK_AUTHENTICATION.SUCCESS:
-      const { token, user } = payload;
+      const { token, userInfo } = payload;
       return {
         ...state,
         loading: false,
         idToken: token,
-        user,
+        userInfo,
       };
     case actions.CHECK_AUTHENTICATION.FAILURE:
       return {
@@ -44,7 +44,7 @@ const auth = (state = initState, { type, payload }) => {
         ...state,
         loading: false,
         idToken: payload.token,
-        user: payload.user,
+        userInfo: payload.userInfo,
       };
     case actions.SIGN_IN.FAILURE:
       return {

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { Divider, Typography, Tabs } from 'antd';
-import { GetDates } from '../../utils/helpers';
-import actions from '../../actions/booking';
+import { GetDates } from '../../core/helpers';
+import actions from '../../state/actions/booking';
 import { useDispatch, useSelector } from 'react-redux';
 import MovieGrid from '../Movies/components/MovieGrid';
 import { movieSelector } from './selector';

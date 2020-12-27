@@ -49,11 +49,3 @@ export const ERROR_CODE = [
   510,
   511,
 ];
-
-export const PUBLIC_API = [
-  '/client/authenticate',
-  '/home/movies/?query=coming-soon',
-  '/home/movies',
-  '/home/movies/',
-  'home/movies/recommendation/',
-];

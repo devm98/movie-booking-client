@@ -1,4 +1,4 @@
-import { actionCreator } from '../utils/helpers';
+import { actionCreator } from '../../core/helpers';
 
 const actions = {
   GET_COMING_SOON_MOVIES: actionCreator('GET_COMING_SOON_MOVIES'),

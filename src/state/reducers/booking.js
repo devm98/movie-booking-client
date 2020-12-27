@@ -7,6 +7,9 @@ const initState = {
   dataRoom: [],
   loadingRoom: false,
   errorRoom: false,
+  seatsBooked: [],
+  loadingSeatsBooked: false,
+  errorSeatsBooked: false,
 };
 
 const schedule = (state = initState, { type, payload }) => {
@@ -38,7 +41,7 @@ const schedule = (state = initState, { type, payload }) => {
       return {
         ...state,
         loadingRoom: false,
-        dataRoom: payload.data,
+        dataRoom: payload.room,
       };
     case actions.GET_ROOM.FAILURE:
       return {
@@ -47,6 +50,23 @@ const schedule = (state = initState, { type, payload }) => {
         errorRoom: payload.error,
       };
 
+    case actions.GET_SEATS_BOOKED.REQUEST:
+      return {
+        ...state,
+        loadingSeatsBooked: true,
+      };
+    case actions.GET_SEATS_BOOKED.SUCCESS:
+      return {
+        ...state,
+        loadingSeatsBooked: false,
+        seatsBooked: payload.seatsBooked,
+      };
+    case actions.GET_SEATS_BOOKED.FAILURE:
+      return {
+        ...state,
+        loadingSeatsBooked: false,
+        errorSeatsBooked: payload.error,
+      };
     default:
       return state;
   }

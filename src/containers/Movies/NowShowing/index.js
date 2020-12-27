@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import actions from '../../../actions/movies';
+import actions from '../../../state/actions/movies';
 import MovieGrid from '../components/MovieGrid';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -14,11 +14,7 @@ function NowShowing(props) {
 
   const movies = useSelector((state) => state?.movies?.nowShowing?.data);
 
-  const propsMovieGrid = {
-    movies,
-  };
-
-  return <MovieGrid {...propsMovieGrid} />;
+  return <MovieGrid movies={movies} />;
 }
 
 export default NowShowing;

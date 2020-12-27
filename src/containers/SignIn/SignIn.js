@@ -1,11 +1,11 @@
-import { faFacebook } from "@fortawesome/free-brands-svg-icons";
-import { faPhoneAlt } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Form, Input } from "antd";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Redirect } from "react-router-dom";
-import actions from "../../actions/auth";
+import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Form, Input } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, Redirect } from 'react-router-dom';
+import actions from '../../state/actions/auth';
 
 const { signInActions } = actions;
 
@@ -39,33 +39,33 @@ function SignIn() {
       {redirectToReferrer ? (
         <Redirect to="/" />
       ) : (
-        <div style={{ display: "flex", flexDirection: "column" }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div className="header-cinema">
             <div className="header-cinema_left">
               <a href="https://www.facebook.com/minhbdk">
                 <FontAwesomeIcon
-                  style={{ color: "#339af0", fontSize: 20 }}
+                  style={{ color: '#339af0', fontSize: 20 }}
                   icon={faFacebook}
-                />{" "}
+                />{' '}
                 Movies Updating Cinema
               </a>
               <span
                 style={{
                   fontWeight: 600,
-                  borderLeft: "2px solid",
+                  borderLeft: '2px solid',
                   paddingLeft: 15,
-                  display: "flex",
-                  alignItems: "center",
+                  display: 'flex',
+                  alignItems: 'center',
                 }}
               >
                 <FontAwesomeIcon
                   icon={faPhoneAlt}
                   style={{
-                    color: "red",
+                    color: 'red',
                     fontSize: 20,
                     marginRight: 5,
-                    borderRadius: "50%",
-                    border: "1px solid",
+                    borderRadius: '50%',
+                    border: '1px solid',
                     padding: 3,
                   }}
                 />
@@ -73,17 +73,17 @@ function SignIn() {
               </span>
             </div>
           </div>
-          <Link to="/" style={{ padding: "15px 0px" }} className="logo-title">
+          <Link to="/" style={{ padding: '15px 0px' }} className="logo-title">
             <h2>MOVIES</h2>
             <h2>CINEMA</h2>
           </Link>
-          <div style={{ padding: "20px 0", flex: "1 0 auto" }}>
+          <div style={{ padding: '20px 0', flex: '1 0 auto' }}>
             <Form {...layout} name="basic" onFinish={handleLogin}>
               <Form.Item
                 label="Email"
                 name="email"
                 rules={[
-                  { required: true, message: "Please input your username!" },
+                  { required: true, message: 'Please input your username!' },
                 ]}
               >
                 <Input />
@@ -93,7 +93,7 @@ function SignIn() {
                 label="Password"
                 name="password"
                 rules={[
-                  { required: true, message: "Please input your password!" },
+                  { required: true, message: 'Please input your password!' },
                 ]}
               >
                 <Input.Password />
@@ -101,7 +101,7 @@ function SignIn() {
 
               <Form.Item {...tailLayout}>
                 <Button
-                  style={{ width: "100%" }}
+                  style={{ width: '100%' }}
                   type="primary"
                   htmlType="submit"
                 >

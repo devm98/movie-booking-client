@@ -1,9 +1,9 @@
-import { Divider, Layout, Tabs, Typography } from "antd";
-import React from "react";
-import { Container } from "react-bootstrap";
+import { Divider, Layout, Tabs, Typography } from 'antd';
+import React from 'react';
+import { Container } from 'react-bootstrap';
 import ComingSoon from './ComingSoon';
-import NowShowing from "./NowShowing";
-import "./style.css";
+import NowShowing from './NowShowing';
+import './style.css';
 
 const { Title } = Typography;
 
@@ -12,7 +12,7 @@ function MovieContainer() {
     <Layout.Content>
       <img
         width="100%"
-        src={require("../../assets/images/banner/slide-1.jpg")}
+        src={require('../../assets/images/banner/slide-1.jpg')}
         alt=""
       />
       <Divider orientation="center">
