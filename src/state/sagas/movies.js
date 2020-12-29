@@ -2,41 +2,47 @@ import { call, put, takeLatest } from 'redux-saga/effects';
 import actions from '../actions/movies';
 import { getComingSoon, getNowShowing } from '../../core/api/movies';
 
-function* getComingSoonMovie({ payload }) {
+function* getComingSoonMovie() {
   try {
     const results = yield call(getComingSoon);
+    const { data, errorCode, pageInfo } = results.data;
 
     yield put({
       type: actions.GET_COMING_SOON_MOVIES.SUCCESS,
       payload: {
-        data: results.data.content,
+        data,
+        errorCode,
+        pageInfo,
       },
     });
   } catch (error) {
     yield put({
       type: actions.GET_COMING_SOON_MOVIES.FAILURE,
       payload: {
-        error: error.response || error.message,
+        error: error.response.data,
       },
     });
   }
 }
 
-function* getNowShowingMovie({ payload }) {
+function* getNowShowingMovie() {
   try {
     const results = yield call(getNowShowing);
+    const { data, errorCode, pageInfo } = results.data;
 
     yield put({
       type: actions.GET_NOW_SHOWING_MOVIES.SUCCESS,
       payload: {
-        data: results.data.content,
+        data,
+        errorCode,
+        pageInfo,
       },
     });
   } catch (error) {
     yield put({
       type: actions.GET_NOW_SHOWING_MOVIES.FAILURE,
       payload: {
-        error: error.response || error.message,
+        error: error.response.data,
       },
     });
   }

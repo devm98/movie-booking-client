@@ -2,14 +2,14 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import AppProvider from './AppProvider';
 import Boot from './state/redux/boot';
-import Home from './containers/Home';
+import AppContainer from './containers/apps';
 
 const App = () => {
   return (
     <AppProvider>
       <Switch>
         <Route path="/">
-          <Home />
+          <AppContainer />
         </Route>
       </Switch>
     </AppProvider>

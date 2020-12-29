@@ -4,7 +4,7 @@ import { Divider, Typography, Tabs } from 'antd';
 import { GetDates } from '../../core/helpers';
 import actions from '../../state/actions/booking';
 import { useDispatch, useSelector } from 'react-redux';
-import MovieGrid from '../Movies/components/MovieGrid';
+import MovieGrid from '../movieScreen/components/MovieGrid';
 import { movieSelector } from './selector';
 
 const { Title } = Typography;

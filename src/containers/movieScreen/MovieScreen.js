@@ -1,13 +1,13 @@
 import { Divider, Layout, Tabs, Typography } from 'antd';
 import React from 'react';
 import { Container } from 'react-bootstrap';
-import ComingSoon from './ComingSoon';
-import NowShowing from './NowShowing';
+import ComingSoon from './comingSoon';
+import NowShowing from './nowShowing';
 import './style.css';
 
 const { Title } = Typography;
 
-function MovieContainer() {
+function MovieScreen() {
   return (
     <Layout.Content>
       <img
@@ -34,4 +34,4 @@ function MovieContainer() {
   );
 }
 
-export default MovieContainer;
+export default MovieScreen;

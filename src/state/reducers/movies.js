@@ -4,12 +4,16 @@ const initState = {
   comingSoon: {
     loading: false,
     data: [],
+    pageInfo: {},
     error: false,
+    status: undefined,
   },
   nowShowing: {
     loading: false,
     data: [],
+    pageInfo: {},
     error: false,
+    status: undefined,
   },
 };
 
@@ -30,6 +34,8 @@ const movies = (state = initState, { type, payload }) => {
           ...state.comingSoon,
           loading: false,
           data: payload.data,
+          errorCode: payload.errorCode,
+          pageInfo: payload.pageInfo,
         },
       };
     case actions.GET_COMING_SOON_MOVIES.FAILURE:
@@ -38,7 +44,7 @@ const movies = (state = initState, { type, payload }) => {
         comingSoon: {
           ...state.comingSoon,
           loading: false,
-          error: payload,
+          error: payload.error,
         },
       };
 
@@ -57,6 +63,8 @@ const movies = (state = initState, { type, payload }) => {
           ...state.nowShowing,
           loading: false,
           data: payload.data,
+          errorCode: payload.errorCode,
+          pageInfo: payload.pageInfo,
         },
       };
     case actions.GET_NOW_SHOWING_MOVIES.FAILURE:
@@ -65,7 +73,7 @@ const movies = (state = initState, { type, payload }) => {
         nowShowing: {
           ...state.nowShowing,
           loading: false,
-          error: payload,
+          error: payload.error,
         },
       };
     default:

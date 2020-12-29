@@ -17,7 +17,7 @@ const tailLayout = {
   wrapperCol: { offset: 8, span: 8 },
 };
 
-function SignIn() {
+function LoginScreen() {
   const dispatch = useDispatch();
 
   const [redirectToReferrer, setRedirectToReferrer] = useState(false);
@@ -116,4 +116,4 @@ function SignIn() {
   );
 }
 
-export default SignIn;
+export default LoginScreen;
