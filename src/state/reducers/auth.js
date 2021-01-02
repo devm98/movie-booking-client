@@ -2,36 +2,17 @@ import actions from '../actions/auth';
 
 const initState = {
   loading: false,
-  idToken: false,
+  idToken: null,
   error: false,
   userInfo: {},
 };
 
 const auth = (state = initState, { type, payload }) => {
   switch (type) {
-    case actions.CHECK_AUTHENTICATION.REQUEST:
+    case actions.CHECK_AUTHENTICATION:
       return {
         ...state,
         loading: true,
-      };
-    case actions.CHECK_AUTHENTICATION.SUCCESS:
-      const { token, userInfo } = payload;
-      return {
-        ...state,
-        loading: false,
-        idToken: token,
-        userInfo,
-      };
-    case actions.CHECK_AUTHENTICATION.FAILURE:
-      return {
-        ...state,
-        loading: false,
-        error: payload.error,
-      };
-    case actions.CHECK_AUTHENTICATION.REFRESH:
-      return {
-        ...state,
-        error: false,
       };
 
     case actions.SIGN_IN.REQUEST:

@@ -29,7 +29,7 @@ function LoginScreen() {
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn !== null) {
       setRedirectToReferrer(true);
     }
   }, [isLoggedIn]);

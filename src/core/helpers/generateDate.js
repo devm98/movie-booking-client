@@ -5,11 +5,16 @@ export function GetDates(daysToAdd) {
   for (let i = 0; i <= daysToAdd; i++) {
     let currentDate = new Date();
     currentDate.setDate(startDate.getDate() + i);
+    let newDate;
+
+    if (1 <= currentDate.getDate() && currentDate.getDate() <= 9) {
+      newDate = '0' + currentDate.getDate();
+    }
     aryDates.push({
       dateVN:
         DayAsString(currentDate.getDay()) +
         ' ' +
-        currentDate.getDate() +
+        newDate +
         '/' +
         MonthAsString(currentDate.getMonth()) +
         '/' +
@@ -19,7 +24,7 @@ export function GetDates(daysToAdd) {
         '-' +
         MonthAsString(currentDate.getMonth()) +
         '-' +
-        currentDate.getDate(),
+        newDate,
     });
   }
 

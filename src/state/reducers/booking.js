@@ -4,9 +4,12 @@ const initState = {
   loading: false,
   data: [],
   error: false,
+  statusCode: undefined,
+  // room
   dataRoom: [],
   loadingRoom: false,
   errorRoom: false,
+  // seat
   seatsBooked: [],
   loadingSeatsBooked: false,
   errorSeatsBooked: false,
@@ -24,6 +27,7 @@ const schedule = (state = initState, { type, payload }) => {
         ...state,
         loading: false,
         data: payload.data,
+        statusCode: payload.code,
       };
     case actions.GET_MOVIE_SCHEDULE.FAILURE:
       return {

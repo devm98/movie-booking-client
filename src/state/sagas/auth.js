@@ -45,7 +45,7 @@ function* checkAuthentication() {
     const [token, userInfo] = yield all([getToken(), loadState('user_info')]);
     if (token) {
       yield put({
-        type: actions.CHECK_AUTHENTICATION.SUCCESS,
+        type: actions.SIGN_IN.SUCCESS,
         payload: {
           token,
           userInfo,
@@ -56,10 +56,6 @@ function* checkAuthentication() {
     }
   } catch (error) {
     yield put({ type: actions.SIGN_OUT });
-  } finally {
-    yield put({
-      type: actions.CHECK_AUTHENTICATION.REFRESH,
-    });
   }
 }
 
@@ -71,5 +67,5 @@ function* signOut() {
 export default function* authSaga() {
   yield takeLatest(actions.SIGN_IN.REQUEST, signIn);
   yield takeLatest(actions.SIGN_OUT, signOut);
-  yield takeLatest(actions.CHECK_AUTHENTICATION.REQUEST, checkAuthentication);
+  yield takeLatest(actions.CHECK_AUTHENTICATION, checkAuthentication);
 }

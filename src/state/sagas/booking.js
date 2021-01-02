@@ -9,11 +9,13 @@ import {
 function* getMovieSchedules({ payload }) {
   try {
     const results = yield call(getMovieScheduleAction, payload);
+    const { code, data } = results.data;
 
     yield put({
       type: actions.GET_MOVIE_SCHEDULE.SUCCESS,
       payload: {
-        data: results.data,
+        data,
+        code,
       },
     });
   } catch (error) {

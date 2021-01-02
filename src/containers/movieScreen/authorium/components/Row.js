@@ -1,10 +1,12 @@
 import React from 'react';
 import Seat from './Seat';
 
-function Row(props) {
+function Row({ searArr }) {
   return (
     <div style={{ display: 'flex' }}>
-      <Seat seatName="Ghe 1" />
+      {searArr.map((seat) => (
+        <Seat key={seat.number} seatName={`Ghe ${seat.number}`} />
+      ))}
     </div>
   );
 }

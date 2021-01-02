@@ -2,7 +2,7 @@ import { actionCreator } from '../../core/helpers';
 
 const actions = {
   SIGN_IN: actionCreator('SIGN_IN'),
-  CHECK_AUTHENTICATION: actionCreator('CHECK_AUTHENTICATION'),
+  CHECK_AUTHENTICATION: 'CHECK_AUTHENTICATION',
   SIGN_OUT: 'SIGN_OUT',
 
   signInActions: (data = {}) => {
@@ -17,7 +17,7 @@ const actions = {
   }),
 
   checkAuthorization: (data) => ({
-    type: actions.CHECK_AUTHENTICATION.REQUEST,
+    type: actions.CHECK_AUTHENTICATION,
     payload: data,
   }),
 };

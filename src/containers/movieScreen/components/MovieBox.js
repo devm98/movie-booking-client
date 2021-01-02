@@ -1,14 +1,14 @@
-import { Button, Card, Col, Form, Modal, Radio, Spin, Steps, Tabs } from 'antd';
-import moment from 'moment';
+import { Button, Card, Col, Form, Modal, Spin, Steps } from 'antd';
 import React, { useState } from 'react';
-import { Col as ColB, Container, Row, Table } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import actions from '../../../state/actions/booking';
 import { getMovieDetails } from '../../../core/api/movies';
 import { GetDates } from '../../../core/helpers';
+import actions from '../../../state/actions/booking';
 import '../style.css';
 import { scheduleSelector } from './selector';
+import stepsAntd from './steps';
 
 const arrDay = GetDates(7);
 
@@ -39,7 +39,7 @@ function MovieBox(props) {
     const showingDate = `${dated} ${data.timeSchedule}:00`;
     dispatch(
       actions.getRooms({
-        movieId: movie.id,
+        movieId: movie?.data?.id,
         showingDate,
       })
     );
@@ -60,7 +60,7 @@ function MovieBox(props) {
       actions.getMovieSchedule({
         date: arrDay[0].dateKey,
         type: '0',
-        movieId: movie?.id,
+        movieId: movie?.data?.id,
       })
     );
     const nextCurrent = current + 1;
@@ -72,97 +72,13 @@ function MovieBox(props) {
     setCurrent(prevCurrent);
   };
 
-  const steps = [
-    {
-      title: 'Chi tiết phim',
-      content: (movie) => (
-        <Row>
-          <ColB xl={3}>
-            <div>
-              <img
-                width="100%"
-                src={`http://localhost:8080/image/movie/${movie?.id}.jpg`}
-                alt={'movie'}
-              />
-            </div>
-          </ColB>
-          <ColB xl={9}>
-            <Table striped hover>
-              <tbody>
-                <tr>
-                  <th width="15%">Thời lượng:</th>
-                  <td>{movie.duration} phút</td>
-                </tr>
-                <tr>
-                  <th width="15%">Đạo diễn:</th>
-                  <td> {movie.director}</td>
-                </tr>
-                <tr>
-                  <th width="15%">Diễn viên:</th>
-                  <td>{movie.actors}</td>
-                </tr>
-                <tr>
-                  <th width="15%">Thể loại:</th>
-                  <td>{movie.genre}</td>
-                </tr>
-                <tr>
-                  <th width="15%">Ngày ra mắt:</th>
-                  <td>{moment(movie.releaseDate).format('DD/MM/YYYY')}</td>
-                </tr>
-                <tr>
-                  <th width="15%">Nội dung:</th>
-                  <td>
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: movie.description,
-                      }}
-                    ></div>
-                  </td>
-                </tr>
-              </tbody>
-            </Table>
-          </ColB>
-        </Row>
-      ),
-    },
-    {
-      title: 'Chọn ngày và khung giờ',
-      content: (movie) => (
-        <Tabs
-          onChange={(activeKey, movieId) =>
-            handleSelectedSchedule(activeKey, (movieId = movie.id))
-          }
-          defaultActiveKey="1"
-        >
-          {arrDay.map((day, i) => (
-            <Tabs.TabPane tab={day.dateVN} key={day.dateKey}>
-              <Form form={form} onValuesChange={onChangeSchedule}>
-                {schedules.length > 0 ? (
-                  <Form.Item label="Các khung giờ hiện có:" name="timeSchedule">
-                    <Radio.Group>
-                      {schedules.map((item, i) => {
-                        return (
-                          <Radio.Button
-                            style={{ marginRight: 10 }}
-                            key={i}
-                            value={item}
-                          >
-                            {item}
-                          </Radio.Button>
-                        );
-                      })}
-                    </Radio.Group>
-                  </Form.Item>
-                ) : (
-                  'Ngày bạn chọn hiện chưa có lịch chiếu'
-                )}
-              </Form>
-            </Tabs.TabPane>
-          ))}
-        </Tabs>
-      ),
-    },
-  ];
+  const steps = stepsAntd(
+    arrDay,
+    form,
+    schedules,
+    handleSelectedSchedule,
+    onChangeSchedule
+  );
 
   return (
     <>
@@ -249,7 +165,9 @@ function MovieBox(props) {
           </div>
         ) : (
           <Container fluid>
-            <div className="steps-content">{steps[current].content(movie)}</div>
+            <div className="steps-content">
+              {steps[current].content(movie?.data)}
+            </div>
           </Container>
         )}
       </Modal>
