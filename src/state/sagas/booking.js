@@ -31,11 +31,13 @@ function* getMovieSchedules({ payload }) {
 function* getRooms({ payload }) {
   try {
     const results = yield call(getRoomAction, payload);
+    const { status, data } = results;
 
     yield put({
       type: actions.GET_ROOM.SUCCESS,
       payload: {
-        room: results.data,
+        room: data,
+        code: status,
       },
     });
   } catch (error) {
@@ -51,11 +53,13 @@ function* getRooms({ payload }) {
 function* getSeatBookedSaga({ payload }) {
   try {
     const results = yield call(getSeatBooked, payload);
+    const { code, data } = results.data;
 
     yield put({
       type: actions.GET_SEATS_BOOKED.SUCCESS,
       payload: {
-        seatsBooked: results.data,
+        seatsBooked: data,
+        code,
       },
     });
   } catch (error) {

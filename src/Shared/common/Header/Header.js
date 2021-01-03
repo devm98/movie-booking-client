@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,6 +10,13 @@ import actions from '../../../state/actions/auth';
 import './style.css';
 import { isEmpty } from 'lodash';
 
+const styleDivider = {
+  background: '#cdc197',
+  margin: 0,
+  height: 5,
+  borderTop: 'none',
+};
+
 function Header() {
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -19,19 +27,16 @@ function Header() {
 
   return (
     <>
+      <Divider style={styleDivider} />
       <div className="header-cinema">
         <div className="header-cinema_left">
-          <a href="https://www.facebook.com/minhbdk">
-            <FontAwesomeIcon
-              style={{ color: '#339af0', fontSize: 20 }}
-              icon={faFacebook}
-            />
-            Movies Updating Cinema
+          <a href="#">
+            <FontAwesomeIcon style={{ color: '#339af0' }} icon={faFacebook} />
+            Fanpage
           </a>
           <span
             style={{
               fontWeight: 600,
-              borderLeft: '2px solid',
               paddingLeft: 15,
               display: 'flex',
               alignItems: 'center',
@@ -41,41 +46,28 @@ function Header() {
               icon={faPhoneAlt}
               style={{
                 color: 'red',
-                fontSize: 20,
                 marginRight: 5,
                 borderRadius: '50%',
                 border: '1px solid',
                 padding: 3,
               }}
             />
-            Lien he: 0327808657
+            0327808657
           </span>
         </div>
-        <div>
+        <div className="header__info">
           {!isEmpty(userInfo) ? (
-            <p
-              style={{
-                display: 'inline-block',
-                marginRight: 8,
-                marginBottom: 0,
-              }}
-            >
-              {userInfo.username}
-            </p>
+            <p>{userInfo.username}</p>
           ) : (
             <Link to="/login"> Đăng nhập </Link>
           )}
 
-          <Button type="link" onClick={handleLogout}>
+          <Button type="primary" onClick={handleLogout}>
             Đăng xuất
           </Button>
         </div>
       </div>
-      <div className="logo-title">
-        <h2>MOVIES</h2>
-        <h2>CINEMA</h2>
-      </div>
-      <Divider style={{ background: '#cdc197', margin: 0, height: 5 }} />
+      <Divider style={styleDivider} />
       <div className="menu-bar">
         <ul>
           <li>

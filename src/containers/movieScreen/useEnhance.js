@@ -7,7 +7,6 @@ import {
   scheduleSelector,
   dataRoomSelector,
   seatsBookedSelector,
-  showingScheduleIdSelector,
 } from './selectors';
 import { GetDates } from '../../core/helpers';
 
@@ -18,19 +17,19 @@ const useEnhance = () => {
   const [dated, setDated] = useState(GetDates(7)[0].dateKey);
   const [movie, setMovie] = useState({});
   const [seatBookings, setSeatBookings] = useState({});
-  const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [current, setCurrent] = useState(0);
   const schedules = useSelector(scheduleSelector);
   const dataRoom = useSelector(dataRoomSelector);
   const seatsBooked = useSelector(seatsBookedSelector);
-  const showingScheduleId = useSelector(showingScheduleIdSelector);
+  const { showingScheduleId } = dataRoom;
 
   const dispatch = useDispatch();
   const comingSoon = useSelector((state) => state.movies.comingSoon.data);
   const nowShowing = useSelector((state) => state?.movies?.nowShowing?.data);
 
   const handleShowMovieDetail = (movieId) => {
+    setLoading(true);
     getMovieDetails(movieId)
       .then((res) => {
         setMovie(res.data);
@@ -39,7 +38,6 @@ const useEnhance = () => {
         }
       })
       .catch((e) => console.log(e));
-    setVisible(true);
   };
 
   const onChangeSchedule = (data) => {
@@ -55,11 +53,6 @@ const useEnhance = () => {
   const handleSelectedSchedule = (key, movieId) => {
     setDated(key);
     dispatch(getMovieSchedule({ date: key, type: '0', movieId }));
-  };
-
-  const handleCancel = () => {
-    setVisible(false);
-    setLoading(true);
   };
 
   const next = () => {
@@ -93,10 +86,14 @@ const useEnhance = () => {
     setSeatBookings({ ...seatBookings, [name]: checked });
   };
 
+  const handleTabClick = (key, e) => {
+    if (key === '1') dispatch(getNowShowingMovies());
+    if (key === '2') dispatch(getComingSoonMovies());
+  };
+
   useEffect(() => {
     dispatch(getNowShowingMovies());
-    dispatch(getComingSoonMovies());
-  }, []);
+  }, [dispatch]);
 
   return {
     movie,
@@ -104,7 +101,6 @@ const useEnhance = () => {
     comingSoon,
     nowShowing,
     schedules,
-    visible,
     loading,
     dataRoom,
     seatsBooked,
@@ -112,11 +108,11 @@ const useEnhance = () => {
     handleShowMovieDetail,
     onChangeSchedule,
     handleSelectedSchedule,
-    handleCancel,
     next,
     prev,
     handleBooking,
     handleBookingSeat,
+    handleTabClick,
   };
 };
 

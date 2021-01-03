@@ -50,6 +50,7 @@ export default (
                 <th width="25%">Nội dung:</th>
                 <td>
                   <div
+                    className="detail__description"
                     dangerouslySetInnerHTML={{
                       __html: movie?.description,
                     }}

@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Modal, Spin, Steps } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { GetDates } from '../../../core/helpers';
@@ -12,20 +12,20 @@ function MovieBox(props) {
     id,
     duration,
     releaseDate,
+    title,
     movie,
     schedules,
     current,
-    visible,
     loading,
     handleSelectedSchedule,
     onChangeSchedule,
     handleShowMovieDetail,
     handleBooking,
-    handleCancel,
     next,
     prev,
   } = props;
   const [form] = Form.useForm();
+  const [modalOn, setModalOn] = useState(false);
 
   const steps = stepsAntd(
     arrDay,
@@ -40,30 +40,40 @@ function MovieBox(props) {
       <Col className="gutter-row" span={6}>
         <Card
           hoverable
-          style={{ cursor: 'pointer' }}
-          onClick={() => handleShowMovieDetail(id)}
-          bodyStyle={{ padding: 0, margin: 0, lineHeight: 1 }}
+          style={{
+            cursor: 'pointer',
+            border: 'thin solid #6f6247',
+            borderRadius: 5,
+            overflow: 'hidden',
+          }}
+          bodyStyle={{
+            padding: 10,
+          }}
+          onClick={() => {
+            handleShowMovieDetail(id);
+            setModalOn(true);
+          }}
           cover={
             <img
-              style={{ maxHeight: 380 }}
+              style={{ maxHeight: 330 }}
               alt="example"
               src={`http://localhost:8080/image/movie/${id}.jpg`}
             />
           }
         >
-          <div
-            className="movie"
+          <Card.Meta
             style={{
-              display: 'flex',
-              fontSize: 16,
-              justifyContent: 'space-between',
-              padding: '0 15px',
-              paddingTop: 15,
+              border: '1px solid #999',
+              borderRadius: 8,
+              padding: '5px 10px',
             }}
-          >
-            <p>{duration} phút</p>
-            <p>{releaseDate}</p>
-          </div>
+            title={
+              <p style={{ borderBottom: 'thin solid', paddingBottom: 3 }}>
+                {title}
+              </p>
+            }
+            description={<div>{`${duration} phút | ${releaseDate}`}</div>}
+          />
         </Card>
       </Col>
       <Modal
@@ -77,7 +87,7 @@ function MovieBox(props) {
             </Steps>
           </div>
         }
-        visible={visible}
+        visible={modalOn}
         bodyStyle={{
           overflowX: 'auto',
           maxHeight: '70vh',
@@ -106,7 +116,7 @@ function MovieBox(props) {
                 Trở về
               </Button>
             )}
-            <Button type="primary" onClick={() => handleCancel()}>
+            <Button type="primary" onClick={() => setModalOn(false)}>
               Hủy
             </Button>
           </div>

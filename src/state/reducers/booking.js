@@ -1,79 +1,100 @@
+import { stateCreater } from '../../core/helpers';
 import actions from '../actions/booking';
 
-const initState = {
-  loading: false,
-  data: [],
-  error: false,
-  statusCode: undefined,
-  // room
-  dataRoom: [],
-  loadingRoom: false,
-  errorRoom: false,
-  // seat
-  seatsBooked: [],
-  loadingSeatsBooked: false,
-  errorSeatsBooked: false,
-};
+const stateList = ['schedule', 'room', 'seat', 'ticket'];
+const initState = { ...stateCreater(stateList) };
 
-const schedule = (state = initState, { type, payload }) => {
+const bookingState = (state = initState, { type, payload }) => {
   switch (type) {
     case actions.GET_MOVIE_SCHEDULE.REQUEST:
       return {
         ...state,
-        loading: true,
+        schedule: {
+          ...state.schedule,
+          loading: true,
+        },
       };
     case actions.GET_MOVIE_SCHEDULE.SUCCESS:
       return {
         ...state,
-        loading: false,
-        data: payload.data,
-        statusCode: payload.code,
+        schedule: {
+          ...state.schedule,
+          loading: false,
+          data: payload.data,
+          httpCode: payload.code,
+        },
       };
     case actions.GET_MOVIE_SCHEDULE.FAILURE:
       return {
         ...state,
-        loading: false,
-        error: payload.error,
+        schedule: {
+          ...state.schedule,
+          loading: false,
+          error: payload.error,
+          httpCode: payload.error.code,
+        },
       };
 
     case actions.GET_ROOM.REQUEST:
       return {
         ...state,
-        loadingRoom: true,
+        room: {
+          ...state.room,
+          loading: true,
+        },
       };
     case actions.GET_ROOM.SUCCESS:
       return {
         ...state,
-        loadingRoom: false,
-        dataRoom: payload.room,
+        room: {
+          ...state.room,
+          loading: false,
+          data: payload.room,
+          httpCode: payload.code,
+        },
       };
     case actions.GET_ROOM.FAILURE:
       return {
         ...state,
-        loadingRoom: false,
-        errorRoom: payload.error,
+        room: {
+          ...state.room,
+          loading: false,
+          error: payload.error,
+          httpCode: payload.error.code,
+        },
       };
 
     case actions.GET_SEATS_BOOKED.REQUEST:
       return {
         ...state,
-        loadingSeatsBooked: true,
+        seat: {
+          ...state.seat,
+          loading: true,
+        },
       };
     case actions.GET_SEATS_BOOKED.SUCCESS:
       return {
         ...state,
-        loadingSeatsBooked: false,
-        seatsBooked: payload.seatsBooked,
+        seat: {
+          ...state.seat,
+          loading: false,
+          data: payload.seatsBooked,
+          httpCode: payload.code,
+        },
       };
     case actions.GET_SEATS_BOOKED.FAILURE:
       return {
         ...state,
-        loadingSeatsBooked: false,
-        errorSeatsBooked: payload.error,
+        seat: {
+          ...state.seat,
+          loading: false,
+          error: payload.error,
+          httpCode: payload.error.code,
+        },
       };
     default:
       return state;
   }
 };
 
-export default schedule;
+export default bookingState;

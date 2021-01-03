@@ -1,7 +1,10 @@
 .movie > p {
-  border: 1px solid ;
+  border: 1px solid;
   flex: 50%;
   margin-right: 5px;
   text-align: center;
   padding: 5px;
+}
+.detail__description > p {
+  line-height: 1.5;
 }

@@ -22,11 +22,11 @@ function MovieScreen(props) {
     handleShowMovieDetail,
     onChangeSchedule,
     handleSelectedSchedule,
-    handleCancel,
     next,
     prev,
     handleBooking,
     handleBookingSeat,
+    handleTabClick,
   } = props;
 
   const propsMovie = {
@@ -43,7 +43,6 @@ function MovieScreen(props) {
     handleShowMovieDetail,
     onChangeSchedule,
     handleSelectedSchedule,
-    handleCancel,
     next,
     prev,
     handleBooking,
@@ -59,11 +58,11 @@ function MovieScreen(props) {
       />
       <Divider orientation="center">
         <Title type="warning" level={2}>
-          Lịch chiếu
+          Danh sách phim
         </Title>
       </Divider>
       <Container>
-        <Tabs defaultActiveKey="1" centered>
+        <Tabs defaultActiveKey="1" centered onTabClick={handleTabClick}>
           <Tabs.TabPane tab="Phim đang chiếu" key="1">
             <NowShowing {...propsMovie} />
           </Tabs.TabPane>

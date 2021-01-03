@@ -2,23 +2,6 @@ import { groupBy } from 'lodash';
 import moment from 'moment';
 import { createSelector } from 'reselect';
 
-export const scheduleSelector = createSelector(
-  (state) => state?.schedule?.data,
-  (item) =>
-    item.map((schedule) => moment(schedule.showingDate).utc().format('HH:mm'))
-);
-
-export const auditoriumSelector = createSelector(
-  (state) => state?.schedule?.dataRoom,
-  (item) =>
-    item.map((schedule) => moment.utc(schedule.showingDate).format('HH:mm:ss'))
-);
-
-export const loadingRoomSelector = createSelector(
-  (state) => state?.schedule?.loadingRoom,
-  (loadingRoom) => loadingRoom
-);
-
 const onGroupSeatsByRow = (dataRoom, flag = false) => {
   if (flag) {
     const newData = groupBy(dataRoom, 'id');
@@ -34,17 +17,29 @@ const onGroupSeatsByRow = (dataRoom, flag = false) => {
   };
 };
 
+export const scheduleSelector = createSelector(
+  (state) => state?.booking?.schedule?.data,
+  (item) =>
+    item.map((schedule) => moment(schedule.showingDate).utc().format('HH:mm'))
+);
+
+export const auditoriumSelector = createSelector(
+  (state) => state?.booking?.room?.data,
+  (item) =>
+    item.map((schedule) => moment.utc(schedule.showingDate).format('HH:mm:ss'))
+);
+
+export const loadingRoomSelector = createSelector(
+  (state) => state?.booking?.room?.loading,
+  (loadingRoom) => loadingRoom
+);
+
 export const dataRoomSelector = createSelector(
-  (state) => state.schedule.dataRoom,
+  (state) => state?.booking?.room.data,
   (dataRoom) => onGroupSeatsByRow(dataRoom)
 );
 
 export const seatsBookedSelector = createSelector(
-  (state) => state.schedule.seatsBooked.data,
+  (state) => state?.booking?.seat?.data,
   (seatsBooked) => onGroupSeatsByRow(seatsBooked, true)
-);
-
-export const showingScheduleIdSelector = createSelector(
-  (state) => state.schedule.dataRoom.showingScheduleId,
-  (showingScheduleId) => showingScheduleId
 );

@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import movies from './movies';
 import auth from './auth';
-import schedule from './booking';
+import booking from './booking';
 
 const rootReducer = combineReducers({
   movies,
   auth,
-  schedule,
+  booking,
 });
 
 export default rootReducer;
