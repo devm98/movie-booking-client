@@ -3,7 +3,7 @@ import { Row } from 'antd';
 import MovieBox from './MovieBox';
 import moment from 'moment';
 
-function MovieGrid({ movies }) {
+function MovieGrid({ movies, ...rest }) {
   return (
     <Row gutter={[16, 24]}>
       {movies?.map((movie) => (
@@ -13,6 +13,7 @@ function MovieGrid({ movies }) {
           title={movie?.title}
           duration={movie?.duration}
           releaseDate={moment(movie?.releaseDate).format('DD/MM/YYYY')}
+          {...rest}
         />
       ))}
     </Row>

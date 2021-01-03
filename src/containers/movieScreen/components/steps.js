@@ -14,7 +14,7 @@ export default (
     title: 'Chi tiết phim',
     content: (movie) => (
       <Row>
-        <ColB xl={3}>
+        <ColB lg={3} xs={4}>
           <div>
             <img
               width="100%"
@@ -23,31 +23,31 @@ export default (
             />
           </div>
         </ColB>
-        <ColB xl={9}>
+        <ColB lg={9} xs={8}>
           <Table striped hover>
             <tbody>
               <tr>
-                <th width="15%">Thời lượng:</th>
+                <th width="25%">Thời lượng:</th>
                 <td>{movie?.duration} phút</td>
               </tr>
               <tr>
-                <th width="15%">Đạo diễn:</th>
+                <th width="25%">Đạo diễn:</th>
                 <td> {movie?.director}</td>
               </tr>
               <tr>
-                <th width="15%">Diễn viên:</th>
+                <th width="25%">Diễn viên:</th>
                 <td>{movie?.actors}</td>
               </tr>
               <tr>
-                <th width="15%">Thể loại:</th>
+                <th width="25%">Thể loại:</th>
                 <td>{movie?.genre}</td>
               </tr>
               <tr>
-                <th width="15%">Ngày ra mắt:</th>
+                <th width="25%">Ngày ra mắt:</th>
                 <td>{moment(movie?.releaseDate).format('DD/MM/YYYY')}</td>
               </tr>
               <tr>
-                <th width="15%">Nội dung:</th>
+                <th width="25%">Nội dung:</th>
                 <td>
                   <div
                     dangerouslySetInnerHTML={{

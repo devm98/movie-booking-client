@@ -7,7 +7,49 @@ import './style.css';
 
 const { Title } = Typography;
 
-function MovieScreen() {
+function MovieScreen(props) {
+  const {
+    movie,
+    current,
+    comingSoon,
+    nowShowing,
+    schedules,
+    visible,
+    loading,
+    dataRoom,
+    seatsBooked,
+    seatBookings,
+    handleShowMovieDetail,
+    onChangeSchedule,
+    handleSelectedSchedule,
+    handleCancel,
+    next,
+    prev,
+    handleBooking,
+    handleBookingSeat,
+  } = props;
+
+  const propsMovie = {
+    movie,
+    current,
+    comingSoon,
+    nowShowing,
+    schedules,
+    visible,
+    loading,
+    dataRoom,
+    seatsBooked,
+    seatBookings,
+    handleShowMovieDetail,
+    onChangeSchedule,
+    handleSelectedSchedule,
+    handleCancel,
+    next,
+    prev,
+    handleBooking,
+    handleBookingSeat,
+  };
+
   return (
     <Layout.Content>
       <img
@@ -23,10 +65,10 @@ function MovieScreen() {
       <Container>
         <Tabs defaultActiveKey="1" centered>
           <Tabs.TabPane tab="Phim đang chiếu" key="1">
-            <NowShowing />
+            <NowShowing {...propsMovie} />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Phim sắp chiếu" key="2">
-            <ComingSoon />
+            <ComingSoon {...propsMovie} />
           </Tabs.TabPane>
         </Tabs>
       </Container>

@@ -1,76 +1,31 @@
 import { Button, Card, Col, Form, Modal, Spin, Steps } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 import { Container } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getMovieDetails } from '../../../core/api/movies';
 import { GetDates } from '../../../core/helpers';
-import actions from '../../../state/actions/booking';
-import '../style.css';
-import { scheduleSelector } from './selector';
 import stepsAntd from './steps';
 
 const arrDay = GetDates(7);
 
 function MovieBox(props) {
-  const dispatch = useDispatch();
+  const {
+    id,
+    duration,
+    releaseDate,
+    movie,
+    schedules,
+    current,
+    visible,
+    loading,
+    handleSelectedSchedule,
+    onChangeSchedule,
+    handleShowMovieDetail,
+    handleBooking,
+    handleCancel,
+    next,
+    prev,
+  } = props;
   const [form] = Form.useForm();
-  const schedules = useSelector(scheduleSelector);
-  const [dated, setDated] = useState(arrDay[0].dateKey);
-  const { id, duration, releaseDate } = props;
-  const [movie, setMovie] = useState({});
-  const [visible, setVisible] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [current, setCurrent] = useState(0);
-
-  const handleShowMovieDetail = () => {
-    getMovieDetails(id)
-      .then((res) => {
-        setMovie(res.data);
-        if (res.status === 200) {
-          setLoading(false);
-        }
-      })
-      .catch((e) => console.log(e));
-    setVisible(true);
-  };
-
-  const onChangeSchedule = (data) => {
-    const showingDate = `${dated} ${data.timeSchedule}:00`;
-    dispatch(
-      actions.getRooms({
-        movieId: movie?.data?.id,
-        showingDate,
-      })
-    );
-  };
-
-  const handleSelectedSchedule = (key, movieId) => {
-    setDated(key);
-    dispatch(actions.getMovieSchedule({ date: key, type: '0', movieId }));
-  };
-
-  const handleCancel = () => {
-    setVisible(false);
-    setLoading(true);
-  };
-
-  const next = () => {
-    dispatch(
-      actions.getMovieSchedule({
-        date: arrDay[0].dateKey,
-        type: '0',
-        movieId: movie?.data?.id,
-      })
-    );
-    const nextCurrent = current + 1;
-    setCurrent(nextCurrent);
-  };
-
-  const prev = () => {
-    const prevCurrent = current - 1;
-    setCurrent(prevCurrent);
-  };
 
   const steps = stepsAntd(
     arrDay,
@@ -86,11 +41,11 @@ function MovieBox(props) {
         <Card
           hoverable
           style={{ cursor: 'pointer' }}
-          onClick={() => handleShowMovieDetail()}
+          onClick={() => handleShowMovieDetail(id)}
           bodyStyle={{ padding: 0, margin: 0, lineHeight: 1 }}
           cover={
             <img
-              height={380}
+              style={{ maxHeight: 380 }}
               alt="example"
               src={`http://localhost:8080/image/movie/${id}.jpg`}
             />
@@ -141,7 +96,9 @@ function MovieBox(props) {
             )}
             {current === steps.length - 1 && (
               <Link to={`/seat-select/${id}`}>
-                <Button type="primary">Tiến hành đặt vé</Button>
+                <Button onClick={() => handleBooking(id)} type="primary">
+                  Tiến hành đặt vé
+                </Button>
               </Link>
             )}
             {current > 0 && (
