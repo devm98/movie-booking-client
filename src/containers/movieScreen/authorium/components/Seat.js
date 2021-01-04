@@ -1,7 +1,15 @@
 import { Checkbox } from 'antd';
 import React from 'react';
 
-function Seat({ seatName, checked, value, onChange }) {
+function Seat({
+  seatName,
+  checked,
+  checkedDefault,
+  value,
+  styles,
+  styleChecked,
+  onChange,
+}) {
   return (
     <div
       style={{
@@ -9,6 +17,16 @@ function Seat({ seatName, checked, value, onChange }) {
         borderRadius: 8,
         boxShadow: '0 0 5px 0 #999999',
         margin: 8,
+        border: checkedDefault
+          ? 'thin solid orangered'
+          : 'thin solid limegreen',
+        userSelect: checkedDefault ? 'none' : 'auto',
+        width: 45,
+        height: 45,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        ...styles,
       }}
     >
       <Checkbox
@@ -20,7 +38,9 @@ function Seat({ seatName, checked, value, onChange }) {
           flexDirection: 'column',
           justifyContent: 'center',
           alignItems: 'center',
+          ...styleChecked,
         }}
+        disabled={checkedDefault}
         checked={checked}
       >
         {seatName}

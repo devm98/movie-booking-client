@@ -7,7 +7,6 @@ function Footer() {
   return (
     <Container className="footer">
       <Divider />
-      <strong>CÔNG TY TNHH CJ CGV VIETNAM</strong>
       <div className="wrapper">
         <div className="logo">
           <img

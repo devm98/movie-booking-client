@@ -3,6 +3,7 @@ const actions = {
   GET_MOVIE_SCHEDULE: actionCreator('GET_MOVIE_SCHEDULE'),
   GET_ROOM: actionCreator('GET_ROOM'),
   GET_SEATS_BOOKED: actionCreator('GET_SEATS_BOOKED'),
+  BOOKING_TICKET: actionCreator('BOOKING_TICKET'),
 
   getMovieSchedule: (data = {}) => {
     return {
@@ -21,6 +22,13 @@ const actions = {
   getSeatsBooked: (data = {}) => {
     return {
       type: actions.GET_SEATS_BOOKED.REQUEST,
+      payload: data,
+    };
+  },
+
+  bookingTicketAction: (data = {}) => {
+    return {
+      type: actions.BOOKING_TICKET.REQUEST,
       payload: data,
     };
   },

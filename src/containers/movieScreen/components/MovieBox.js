@@ -24,6 +24,7 @@ function MovieBox(props) {
     next,
     prev,
   } = props;
+
   const [form] = Form.useForm();
   const [modalOn, setModalOn] = useState(false);
 

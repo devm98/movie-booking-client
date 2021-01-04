@@ -1,9 +1,8 @@
 import React from 'react';
 import Seat from './Seat';
 
-function Row({ searArr, seatsBooked, seatBookings, handleBookingSeat }) {
+function Row({ searArr, seatsBooked, seatBookings, handleBookingSeat, keys }) {
   const mergeSeat = { ...seatsBooked, ...seatBookings };
-  console.log(mergeSeat);
   return (
     <div style={{ display: 'flex' }}>
       {searArr.map((seat) => {
@@ -11,9 +10,10 @@ function Row({ searArr, seatsBooked, seatBookings, handleBookingSeat }) {
           <Seat
             key={seat.number}
             checked={mergeSeat[seat.id] || false}
+            checkedDefault={seatsBooked[seat.id]}
             value={seat.id}
             onChange={handleBookingSeat}
-            seatName={`Ghế ${seat.number}`}
+            seatName={`${keys}${seat.number}`}
           />
         );
       })}

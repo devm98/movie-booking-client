@@ -8,3 +8,10 @@
 .detail__description > p {
   line-height: 1.5;
 }
+
+.auditorium__container {
+  border: 1px solid lightcoral;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px auto;
+}

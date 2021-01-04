@@ -11,3 +11,7 @@ export const getRoomAction = (params = {}) => {
 export const getSeatBooked = (params = {}) => {
   return apiService.get('/client/auditoriums/seats', { params });
 };
+
+export const bookingTicket = (data) => {
+  return apiService.post('/client/bookings', data);
+};

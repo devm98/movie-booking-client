@@ -35,11 +35,16 @@ export const loadingRoomSelector = createSelector(
 );
 
 export const dataRoomSelector = createSelector(
-  (state) => state?.booking?.room.data,
+  (state) => state?.booking?.room?.data,
   (dataRoom) => onGroupSeatsByRow(dataRoom)
 );
 
 export const seatsBookedSelector = createSelector(
   (state) => state?.booking?.seat?.data,
   (seatsBooked) => onGroupSeatsByRow(seatsBooked, true)
+);
+
+export const loadingSeatsBookedSelector = createSelector(
+  (state) => state?.booking?.seat?.loading,
+  (loading) => loading
 );

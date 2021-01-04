@@ -4,6 +4,7 @@ import {
   getMovieScheduleAction,
   getRoomAction,
   getSeatBooked,
+  bookingTicket,
 } from '../../core/api/booking';
 
 function* getMovieSchedules({ payload }) {
@@ -72,8 +73,31 @@ function* getSeatBookedSaga({ payload }) {
   }
 }
 
+function* bookingTicketSaga({ payload }) {
+  try {
+    const results = yield call(bookingTicket, payload);
+    const { status, data } = results;
+
+    yield put({
+      type: actions.BOOKING_TICKET.SUCCESS,
+      payload: {
+        data,
+        code: status,
+      },
+    });
+  } catch (error) {
+    yield put({
+      type: actions.BOOKING_TICKET.FAILURE,
+      payload: {
+        error: error.response || error.message,
+      },
+    });
+  }
+}
+
 export default function* bookingSaga() {
   yield takeLatest(actions.GET_MOVIE_SCHEDULE.REQUEST, getMovieSchedules);
   yield takeLatest(actions.GET_ROOM.REQUEST, getRooms);
   yield takeLatest(actions.GET_SEATS_BOOKED.REQUEST, getSeatBookedSaga);
+  yield takeLatest(actions.BOOKING_TICKET.REQUEST, bookingTicketSaga);
 }

@@ -92,6 +92,36 @@ const bookingState = (state = initState, { type, payload }) => {
           httpCode: payload.error.code,
         },
       };
+
+    case actions.BOOKING_TICKET.REQUEST:
+      return {
+        ...state,
+        ticket: {
+          ...state.ticket,
+          loading: true,
+        },
+      };
+    case actions.BOOKING_TICKET.SUCCESS:
+      return {
+        ...state,
+        ticket: {
+          ...state.ticket,
+          loading: false,
+          data: payload.data,
+          httpCode: payload.code,
+        },
+      };
+    case actions.BOOKING_TICKET.FAILURE:
+      return {
+        ...state,
+        ticket: {
+          ...state.ticket,
+          loading: false,
+          error: payload.error,
+          httpCode: payload.error.code,
+        },
+      };
+
     default:
       return state;
   }

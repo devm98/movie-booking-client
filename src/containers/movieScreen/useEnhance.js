@@ -10,11 +10,13 @@ import {
 } from './selectors';
 import { GetDates } from '../../core/helpers';
 
+
 const { getComingSoonMovies, getNowShowingMovies } = movieActions;
 const { getRooms, getMovieSchedule, getSeatsBooked } = bookingActions;
+const arrDay = GetDates(7);
 
 const useEnhance = () => {
-  const [dated, setDated] = useState(GetDates(7)[0].dateKey);
+  const [dated, setDated] = useState(arrDay[0].dateKey);
   const [movie, setMovie] = useState({});
   const [seatBookings, setSeatBookings] = useState({});
   const [loading, setLoading] = useState(true);
@@ -29,6 +31,7 @@ const useEnhance = () => {
   const nowShowing = useSelector((state) => state?.movies?.nowShowing?.data);
 
   const handleShowMovieDetail = (movieId) => {
+    setCurrent(0);
     setLoading(true);
     getMovieDetails(movieId)
       .then((res) => {
@@ -58,7 +61,7 @@ const useEnhance = () => {
   const next = () => {
     dispatch(
       getMovieSchedule({
-        date: GetDates(7)[0].dateKey,
+        date: arrDay[0].dateKey,
         type: '0',
         movieId: movie?.data?.id,
       })
