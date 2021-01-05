@@ -17,6 +17,7 @@
     "boostrap": "^2.0.0",
     "bootstrap": "^4.5.0",
     "dayjs": "^1.10.3",
+    "express": "^4.17.1",
     "history": "^5.0.0",
     "lodash": "^4.17.20",
     "moment": "^2.27.0",
@@ -32,7 +33,7 @@
     "reselect": "^4.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "node server/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
