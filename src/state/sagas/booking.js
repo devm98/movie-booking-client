@@ -32,13 +32,13 @@ function* getMovieSchedules({ payload }) {
 function* getRooms({ payload }) {
   try {
     const results = yield call(getRoomAction, payload);
-    const { status, data } = results;
+    const { code, data } = results.data;
 
     yield put({
       type: actions.GET_ROOM.SUCCESS,
       payload: {
         room: data,
-        code: status,
+        code,
       },
     });
   } catch (error) {

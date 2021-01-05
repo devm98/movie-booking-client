@@ -15,3 +15,46 @@
   padding: 20px;
   margin: 20px auto;
 }
+.ticket__detail {
+  justify-content: space-around;
+}
+.ticket__movie {
+  align-items: center;
+}
+
+.ticket__movie,
+.ticket__main {
+  flex: 30%;
+}
+
+.ticket__total {
+  flex: 25%;
+}
+.ticket__action {
+  flex: 15%;
+}
+
+.ticket__main > p,
+.ticket__total > p {
+  line-height: 1.75;
+}
+.ticket__main > p:nth-child(1) {
+  font-size: 20px;
+  font-weight: 600;
+}
+.ticket__movie > img {
+  width: 20%;
+}
+.ticket__movie > div {
+  margin: 0 15px;
+}
+.ticket__movie > div > p {
+  line-height: 1.5;
+}
+.ticket__movie > div > p:nth-child(1) {
+  font-weight: 600;
+  font-size: 18px;
+}
+.ticket__action > button {
+  font-weight: 600;
+}

@@ -1,4 +1,4 @@
-export const stateCreater = (keys = []) => {
+export const stateCreator = (keys = []) => {
   let stateObj = {};
   keys.forEach((key) => {
     stateObj[key] = {

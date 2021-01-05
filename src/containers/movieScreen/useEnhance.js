@@ -10,7 +10,6 @@ import {
 } from './selectors';
 import { GetDates } from '../../core/helpers';
 
-
 const { getComingSoonMovies, getNowShowingMovies } = movieActions;
 const { getRooms, getMovieSchedule, getSeatsBooked } = bookingActions;
 const arrDay = GetDates(7);

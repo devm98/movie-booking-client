@@ -13,6 +13,7 @@ const onGroupSeatsByRow = (dataRoom, flag = false) => {
   const { seats } = dataRoom;
   return {
     ...dataRoom,
+    seatOriginals: seats,
     seats: groupBy(seats, 'row'),
   };
 };

@@ -1,8 +1,8 @@
-import { stateCreater } from '../../core/helpers';
+import { stateCreator } from '../../core/helpers';
 import actions from '../actions/booking';
 
 const stateList = ['schedule', 'room', 'seat', 'ticket'];
-const initState = { ...stateCreater(stateList) };
+const initState = { ...stateCreator(stateList) };
 
 const bookingState = (state = initState, { type, payload }) => {
   switch (type) {

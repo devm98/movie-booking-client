@@ -4,7 +4,7 @@ import { Footer, Header } from '../../shared/common';
 import { PrivateRoute } from '../../shared/routes';
 import { useDispatch, useSelector } from 'react-redux';
 import MovieScreen from '../movieScreen';
-import Authorium from '../movieScreen/authorium';
+import Auditorium from '../movieScreen/auditorium';
 import LoginScreen from '../loginScreen';
 import authAction from '../../state/actions/auth';
 
@@ -32,7 +32,7 @@ const App = withRouter(({ location }) => {
         <PrivateRoute
           isAuth={isAuth}
           path={`${path}seat-select/:id`}
-          component={Authorium}
+          component={Auditorium}
         />
         <Route path={`${path}login`} component={LoginScreen} />
       </Switch>
