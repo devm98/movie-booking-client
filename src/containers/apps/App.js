@@ -7,6 +7,7 @@ import MovieScreen from '../movieScreen';
 import Auditorium from '../movieScreen/auditorium';
 import LoginScreen from '../loginScreen';
 import authAction from '../../state/actions/auth';
+import Payment from '../movieScreen/payment';
 
 const App = withRouter(({ location }) => {
   let { path } = useRouteMatch();
@@ -33,6 +34,11 @@ const App = withRouter(({ location }) => {
           isAuth={isAuth}
           path={`${path}seat-select/:id`}
           component={Auditorium}
+        />
+        <PrivateRoute
+          isAuth={isAuth}
+          path={`${path}payment`}
+          component={Payment}
         />
         <Route path={`${path}login`} component={LoginScreen} />
       </Switch>

@@ -5,7 +5,7 @@ import moment from 'moment';
 import React, { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { formatCash } from '../../../core/helpers';
 import {
   dataRoomSelector,
@@ -139,9 +139,21 @@ function Auditorium() {
           </p>
         </div>
         <div className="ticket__action">
-          <Button className="mb-3" type="primary">
-            Xác nhận {'>>'}
-          </Button>
+          <Link
+            to={{
+              pathname: '/payment',
+              state: {
+                ...ticketInfo,
+                seatSelected: seatArr.join(', '),
+                movieId: id,
+                totalPrice: formatCash(totalPrice),
+              },
+            }}
+          >
+            <Button className="mb-3" type="primary">
+              Xác nhận {'>>'}
+            </Button>
+          </Link>
           <Button style={{ width: 111 }}>{'<<'} Quay về</Button>
         </div>
       </div>
