@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import scriptLoader from 'react-async-script-loader';
+import { exchangeMoney } from '../../../../core/helpers';
 
 const CLIENT = {
   sandbox:
@@ -17,13 +18,9 @@ let PayPalButton = () => null;
 class PaypalButton extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       showButtons: false,
-      loading: true,
-      paid: false,
     };
-
     window.React = React;
     window.ReactDOM = ReactDOM;
   }
@@ -36,7 +33,6 @@ class PaypalButton extends React.Component {
       this.setState({ loading: false, showButtons: true });
     }
   }
-
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { isScriptLoaded, isScriptLoadSucceed } = nextProps;
 
@@ -55,14 +51,17 @@ class PaypalButton extends React.Component {
   }
 
   createOrder = (data, actions) => {
-    console.log('createOrder', { data, actions });
+    const { state, setPaypal, paypal } = this.props;
+    setPaypal({
+      ...paypal,
+      loading: true,
+    });
     return actions.order.create({
       purchase_units: [
         {
-          description: +'Mercedes G-Wagon',
           amount: {
             currency_code: 'USD',
-            value: 200,
+            value: exchangeMoney(state.totalPrice),
           },
         },
       ],
@@ -70,15 +69,16 @@ class PaypalButton extends React.Component {
   };
 
   onApprove = (data, actions) => {
-    console.log('onApprove', { data, actions });
+    const { setPaypal, paypal } = this.props;
     actions.order.capture().then((details) => {
-      console.log(details);
-      const paymentData = {
-        payerID: data.payerID,
-        orderID: data.orderID,
-      };
-      console.log('Payment Approved: ', paymentData);
-      this.setState({ showButtons: false, paid: true });
+      if (details?.status === 'COMPLETED') {
+        this.setState({ showButtons: false });
+        setPaypal({
+          ...paypal,
+          loading: false,
+          status: details?.status,
+        });
+      }
     });
   };
 

@@ -1,10 +1,39 @@
 import moment from 'moment';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
+import { formatCash } from '../../../core/helpers';
 import PaymentButton from './components/PaypalButtons';
+import actions from '../../../state/actions/booking';
+import { useDispatch, useSelector } from 'react-redux';
+import { Spin } from 'antd';
 
 function Payment(props) {
+  const [paypal, setPaypal] = useState({
+    loading: false,
+    error: false,
+    dataResponse: undefined,
+    status: -1,
+  });
+  const dispatch = useDispatch();
   const { state } = props.location;
+  const userInfo = useSelector((state) => state?.auth?.userInfo);
+
+  useEffect(() => {
+    if (paypal.status === 'COMPLETED') {
+      const { movieId, showingScheduleId, totalPrice, seatIds } = state;
+      dispatch(
+        actions.bookingTicketAction({
+          bookingDate: moment(new Date()).format('YYYY-MM-DD HH:mm'),
+          movieId,
+          showingScheduleId,
+          grandTotal: totalPrice,
+          seatIds,
+          customerId: userInfo?.id,
+        })
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, paypal.status]);
 
   return (
     <Container>
@@ -53,11 +82,15 @@ function Payment(props) {
           <Card>
             <Card.Body>
               <Card.Title className="text-success">
-                Tổng tiền của bạn là: {state?.totalPrice}đ
+                Tổng tiền của bạn là: {formatCash(state?.totalPrice)}đ
               </Card.Title>
               <hr />
               <Card.Title>Hình thức thanh toán</Card.Title>
-              <PaymentButton />
+              <PaymentButton
+                paypal={paypal}
+                setPaypal={setPaypal}
+                state={state}
+              />
             </Card.Body>
           </Card>
         </Col>

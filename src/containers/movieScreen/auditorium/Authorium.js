@@ -20,7 +20,7 @@ function Auditorium() {
   const { id } = useParams();
   const loading = useSelector(loadingSeatsBookedSelector);
   const dataRoom = useSelector(dataRoomSelector);
-  const { ticketInfo } = dataRoom;
+  const { ticketInfo, showingScheduleId } = dataRoom;
   const seatsBooked = useSelector(seatsBookedSelector);
   const { seatBookings, handleBookingSeat } = useEnhance();
   const totalPrice = Object.keys(seatBookings).length * ticketInfo?.ticketPrice;
@@ -144,9 +144,11 @@ function Auditorium() {
               pathname: '/payment',
               state: {
                 ...ticketInfo,
-                seatSelected: seatArr.join(', '),
                 movieId: id,
-                totalPrice: formatCash(totalPrice),
+                seatSelected: seatArr.join(', '),
+                seatIds: Object.keys(seatBookings),
+                totalPrice: totalPrice,
+                showingScheduleId,
               },
             }}
           >
