@@ -19,6 +19,7 @@ const useEnhance = () => {
   const [movie, setMovie] = useState({});
   const [seatBookings, setSeatBookings] = useState({});
   const [loadingDetail, setLoadingDetail] = useState(false);
+  const [isSelected, setIsSelected] = useState(false);
   const [current, setCurrent] = useState(0);
   const schedules = useSelector(scheduleSelector);
   const dataRoom = useSelector(dataRoomSelector);
@@ -43,6 +44,7 @@ const useEnhance = () => {
   };
 
   const onChangeSchedule = (data) => {
+    setIsSelected(true);
     const showingDate = `${dated} ${data.timeSchedule}:00`;
     dispatch(
       getRooms({
@@ -85,6 +87,7 @@ const useEnhance = () => {
 
   const handleBookingSeat = (e) => {
     const { checked, name } = e.target;
+
     setSeatBookings({ ...seatBookings, [name]: checked });
   };
 
@@ -107,6 +110,7 @@ const useEnhance = () => {
     dataRoom,
     seatsBooked,
     seatBookings,
+    isSelected,
     handleShowMovieDetail,
     onChangeSchedule,
     handleSelectedSchedule,

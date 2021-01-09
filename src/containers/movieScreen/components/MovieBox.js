@@ -16,6 +16,7 @@ function MovieBox(props) {
     movie,
     schedules,
     current,
+    isSelected,
     loading,
     loadingDetail,
     handleSelectedSchedule,
@@ -109,7 +110,11 @@ function MovieBox(props) {
             )}
             {current === steps.length - 1 && (
               <Link to={`/seat-select/${id}`}>
-                <Button onClick={() => handleBooking(id)} type="primary">
+                <Button
+                  disabled={!isSelected}
+                  onClick={() => handleBooking(id)}
+                  type="primary"
+                >
                   Tiến hành đặt vé
                 </Button>
               </Link>

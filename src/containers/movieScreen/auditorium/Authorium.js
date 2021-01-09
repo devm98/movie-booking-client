@@ -15,6 +15,7 @@ import {
 import useEnhance from '../useEnhance';
 import Row from './components/Row';
 import Seat from './components/Seat';
+import { RocketOutlined } from '@ant-design/icons';
 
 function Auditorium() {
   const { id } = useParams();
@@ -23,6 +24,14 @@ function Auditorium() {
   const { ticketInfo, showingScheduleId } = dataRoom;
   const seatsBooked = useSelector(seatsBookedSelector);
   const { seatBookings, handleBookingSeat } = useEnhance();
+
+  for (const key in seatBookings) {
+    const element = seatBookings[key];
+    if (element === false) {
+      delete seatBookings[key];
+    }
+  }
+
   const totalPrice = Object.keys(seatBookings).length * ticketInfo?.ticketPrice;
 
   useEffect(() => {
@@ -41,25 +50,23 @@ function Auditorium() {
   });
 
   return (
-    <Container className="auditorium__container">
-      <div className="text-center">
-        <h3
-          style={{
-            background: '#2196f3',
-            background: '-webkit-linear-gradient(to right, #005c97, #363795)',
-            background: 'linear-gradient(to right, #005c97, #363795)',
-            color: 'white',
-            padding: '10px 0',
-          }}
-        >
-          MÀN HÌNH
-        </h3>
-      </div>
-      <Divider />
-      {loading ? (
-        <Spin size="large" />
-      ) : (
-        Object.keys(dataRoom?.seats).map((key, index) => {
+    <Spin spinning={loading} size="large" indicator={<RocketOutlined />}>
+      <Container className="auditorium__container">
+        <div className="text-center">
+          <h3
+            style={{
+              background: '#2196f3',
+              background: '-webkit-linear-gradient(to right, #005c97, #363795)',
+              background: 'linear-gradient(to right, #005c97, #363795)',
+              color: 'white',
+              padding: '10px 0',
+            }}
+          >
+            MÀN HÌNH
+          </h3>
+        </div>
+        <Divider />
+        {Object.keys(dataRoom?.seats).map((key, index) => {
           const seat = dataRoom?.seats[key];
           return (
             <div
@@ -78,88 +85,94 @@ function Auditorium() {
               />
             </div>
           );
-        })
-      )}
-      <Divider />
-      <div className="booking__rule d-flex align-items-center justify-content-center">
-        <span>Ghế đã chọn</span>{' '}
-        <Seat
-          styles={{ marginRight: 15 }}
-          styleChecked={{ userSelect: 'none' }}
-          seatName="GHẾ"
-          checked={true}
-        />
-        <span>Ghế đã đặt</span>{' '}
-        <Seat
-          checkedDefault={true}
-          styles={{ marginRight: 15 }}
-          styleChecked={{ userSelect: 'none' }}
-          seatName="GHẾ"
-          checked={true}
-        />
-        <span>Ghế trống</span>{' '}
-        <Seat styleChecked={{ userSelect: 'none' }} seatName="GHẾ" />
-      </div>
-      <Divider />
-      <div className="ticket__detail d-flex align-items-center">
-        <div className="ticket__movie d-flex">
-          <img
-            src={`http://localhost:8080/image/movie/${id}.jpg`}
-            alt="movie"
+        })}
+        <Divider />
+        <div className="booking__rule d-flex align-items-center justify-content-center">
+          <span>Ghế đã chọn</span>{' '}
+          <Seat
+            styles={{ marginRight: 15 }}
+            styleChecked={{ userSelect: 'none' }}
+            seatName="GHẾ"
+            checked={true}
           />
-          <div>
-            <p>{ticketInfo?.movieName}</p>
+          <span>Ghế đã đặt</span>{' '}
+          <Seat
+            checkedDefault={true}
+            styles={{ marginRight: 15 }}
+            styleChecked={{ userSelect: 'none' }}
+            seatName="GHẾ"
+            checked={true}
+          />
+          <span>Ghế trống</span>{' '}
+          <Seat styleChecked={{ userSelect: 'none' }} seatName="GHẾ" />
+        </div>
+        <Divider />
+        <div className="ticket__detail d-flex align-items-center">
+          <div className="ticket__movie d-flex">
+            <img
+              src={`http://localhost:8080/image/movie/${id}.jpg`}
+              alt="movie"
+            />
+            <div>
+              <p>{ticketInfo?.movieName}</p>
+              <p>
+                <strong>Thời lượng:</strong> {ticketInfo?.movieDuration} phút
+              </p>
+            </div>
+          </div>
+          <div className="ticket__main">
+            <p>Cinema MovieUpdating Thủ Đức</p>
             <p>
-              <strong>Thời lượng:</strong> {ticketInfo?.movieDuration} phút
+              <strong>Suất chiếu:</strong>{' '}
+              {moment(ticketInfo?.showingTime)
+                .utc()
+                .format('HH:mm | DD/MM/YYYY')}
+            </p>
+            <p>
+              <strong>Phòng chiếu:</strong> {ticketInfo?.auditoriumName}
             </p>
           </div>
-        </div>
-        <div className="ticket__main">
-          <p>Cinema MovieUpdating Thủ Đức</p>
-          <p>
-            <strong>Suất chiếu:</strong>{' '}
-            {moment(ticketInfo?.showingTime).utc().format('HH:mm | DD/MM/YYYY')}
-          </p>
-          <p>
-            <strong>Phòng chiếu:</strong> {ticketInfo?.auditoriumName}
-          </p>
-        </div>
-        <div className="ticket__total">
-          {!isEmpty(seatBookings) && (
-            <p>
-              <strong>Ghế đã chọn:</strong> {seatArr.join(', ')}
-            </p>
-          )}
+          <div className="ticket__total">
+            {!isEmpty(seatBookings) && (
+              <p>
+                <strong>Ghế đã chọn:</strong> {seatArr.join(', ')}
+              </p>
+            )}
 
-          <p>
-            <strong>Giá vé:</strong> {formatCash(ticketInfo?.ticketPrice)}đ
-          </p>
-          <p>
-            <strong>Tổng:</strong> {formatCash(totalPrice)}đ
-          </p>
+            <p>
+              <strong>Giá vé:</strong> {formatCash(ticketInfo?.ticketPrice)}đ
+            </p>
+            <p>
+              <strong>Tổng:</strong> {formatCash(totalPrice)}đ
+            </p>
+          </div>
+          <div className="ticket__action">
+            <Link
+              to={{
+                pathname: '/payment',
+                state: {
+                  ...ticketInfo,
+                  movieId: id,
+                  seatSelected: seatArr.join(', '),
+                  seatIds: Object.keys(seatBookings),
+                  totalPrice: totalPrice,
+                  showingScheduleId,
+                },
+              }}
+            >
+              <Button
+                disabled={!(Object.keys(seatBookings).length > 0)}
+                className="mb-3"
+                type="primary"
+              >
+                Xác nhận {'>>'}
+              </Button>
+            </Link>
+            <Button style={{ width: 111 }}>{'<<'} Quay về</Button>
+          </div>
         </div>
-        <div className="ticket__action">
-          <Link
-            to={{
-              pathname: '/payment',
-              state: {
-                ...ticketInfo,
-                movieId: id,
-                seatSelected: seatArr.join(', '),
-                seatIds: Object.keys(seatBookings),
-                totalPrice: totalPrice,
-                showingScheduleId,
-              },
-            }}
-          >
-            <Button className="mb-3" type="primary">
-              Xác nhận {'>>'}
-            </Button>
-          </Link>
-          <Button style={{ width: 111 }}>{'<<'} Quay về</Button>
-        </div>
-      </div>
-    </Container>
+      </Container>
+    </Spin>
   );
 }
 
