@@ -57,14 +57,20 @@ function Header() {
         </div>
         <div className="header__info">
           {!isEmpty(userInfo) ? (
-            <p>{userInfo.username}</p>
+            <>
+              <p>
+                Xin chào {userInfo.gender === 'm' ? 'anh' : 'chị'}{' '}
+                {userInfo.fullName}
+              </p>
+              <Button type="primary" onClick={handleLogout}>
+                Đăng xuất
+              </Button>
+            </>
           ) : (
-            <Link to="/login"> Đăng nhập </Link>
+            <>
+              <Link to="/login">Đăng nhập / Đăng ký</Link>
+            </>
           )}
-
-          <Button type="primary" onClick={handleLogout}>
-            Đăng xuất
-          </Button>
         </div>
       </div>
       <Divider style={styleDivider} />

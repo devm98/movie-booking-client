@@ -18,7 +18,7 @@ const useEnhance = () => {
   const [dated, setDated] = useState(arrDay[0].dateKey);
   const [movie, setMovie] = useState({});
   const [seatBookings, setSeatBookings] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [loadingDetail, setLoadingDetail] = useState(false);
   const [current, setCurrent] = useState(0);
   const schedules = useSelector(scheduleSelector);
   const dataRoom = useSelector(dataRoomSelector);
@@ -31,12 +31,12 @@ const useEnhance = () => {
 
   const handleShowMovieDetail = (movieId) => {
     setCurrent(0);
-    setLoading(true);
+    setLoadingDetail(true);
     getMovieDetails(movieId)
       .then((res) => {
         setMovie(res.data);
         if (res.status === 200) {
-          setLoading(false);
+          setLoadingDetail(false);
         }
       })
       .catch((e) => console.log(e));
@@ -103,7 +103,7 @@ const useEnhance = () => {
     comingSoon,
     nowShowing,
     schedules,
-    loading,
+    loadingDetail,
     dataRoom,
     seatsBooked,
     seatBookings,

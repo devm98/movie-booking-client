@@ -17,6 +17,7 @@ function MovieBox(props) {
     schedules,
     current,
     loading,
+    loadingDetail,
     handleSelectedSchedule,
     onChangeSchedule,
     handleShowMovieDetail,
@@ -40,6 +41,7 @@ function MovieBox(props) {
     <>
       <Col className="gutter-row" span={6}>
         <Card
+          loading={loading}
           hoverable
           style={{
             cursor: 'pointer',
@@ -123,7 +125,7 @@ function MovieBox(props) {
           </div>
         }
       >
-        {loading ? (
+        {loadingDetail ? (
           <div
             style={{
               textAlign: 'center',

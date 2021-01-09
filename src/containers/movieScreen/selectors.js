@@ -49,3 +49,13 @@ export const loadingSeatsBookedSelector = createSelector(
   (state) => state?.booking?.seat?.loading,
   (loading) => loading
 );
+
+export const loadingComingSoonMovieSelector = createSelector(
+  (state) => state?.movie?.comingSoon.loading,
+  (loading) => loading
+);
+
+export const loadingNowShowingMovieSelector = createSelector(
+  (state) => state?.movie?.nowShowing.loading,
+  (loading) => loading
+);
