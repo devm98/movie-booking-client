@@ -1,9 +1,9 @@
 import apiService from '../../core/helpers/axiosService';
 
-const urlComingSoon = '/home/movies/?query=coming-soon';
-const urlNowShowing = '/home/movies';
-const urlRecommend = (id) => `home/movies/recommendation/${id}`;
-const urlMovieDetail = (id) => `/home/movies/${id}`;
+const urlComingSoon = '/public/movies/?query=coming-soon';
+const urlNowShowing = '/public/movies';
+const urlRecommend = (id) => `public/movies/recommendation/${id}`;
+const urlMovieDetail = (id) => `/public/movies/${id}`;
 
 export const getComingSoon = () => {
   return apiService.get(urlComingSoon);

@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import movieActions from '../../state/actions/movies';
-import bookingActions from '../../state/actions/booking';
 import { getMovieDetails } from '../../core/api/movies';
+import { GetDates } from '../../core/helpers';
+import bookingActions from '../../state/actions/booking';
+import movieActions from '../../state/actions/movies';
 import {
-  scheduleSelector,
   dataRoomSelector,
+  scheduleSelector,
   seatsBookedSelector,
 } from './selectors';
-import { GetDates } from '../../core/helpers';
 
 const { getComingSoonMovies, getNowShowingMovies } = movieActions;
 const { getRooms, getMovieSchedule, getSeatsBooked } = bookingActions;

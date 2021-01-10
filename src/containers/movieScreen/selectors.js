@@ -20,8 +20,7 @@ const onGroupSeatsByRow = (dataRoom, flag = false) => {
 
 export const scheduleSelector = createSelector(
   (state) => state?.booking?.schedule?.data,
-  (item) =>
-    item.map((schedule) => moment(schedule.showingDate).utc().format('HH:mm'))
+  (item) => item.map((schedule) => moment(schedule.showingDate).format('HH:mm'))
 );
 
 export const auditoriumSelector = createSelector(

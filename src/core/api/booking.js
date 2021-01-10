@@ -1,11 +1,11 @@
 import apiService from '../../core/helpers/axiosService';
 
 export const getMovieScheduleAction = (params = {}) => {
-  return apiService.get('/home/movies/schedules', { params });
+  return apiService.get('/public/schedules', { params });
 };
 
 export const getRoomAction = (params = {}) => {
-  return apiService.get('/client/bookings', { params });
+  return apiService.get('/client/seats', { params });
 };
 
 export const getSeatBooked = (params = {}) => {
