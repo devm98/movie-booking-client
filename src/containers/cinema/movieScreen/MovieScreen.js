@@ -55,7 +55,7 @@ function MovieScreen(props) {
     <Layout.Content>
       <img
         width="100%"
-        src={require('../../assets/images/banner/slide-1.jpg')}
+        src={require('../../../assets/images/banner/slide-1.jpg')}
         alt=""
       />
       <Divider orientation="center">

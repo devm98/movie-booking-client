@@ -18,7 +18,7 @@ export default (
           <div>
             <img
               width="100%"
-              src={`http://localhost:8080/image/movie/${movie?.id}.jpg`}
+              src={`http://localhost:8080/images/${movie?.id}.jpg`}
               alt={'movie'}
             />
           </div>

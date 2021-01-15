@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { getToken } from './localStorage';
 
-import createStore from '../../state/redux/configStore';
-import authActions from '../../state/actions/auth';
+// import createStore from '../../state/redux/configStore';
+// import authActions from '../../state/actions/auth';
+// import { useHistory } from 'react-router-dom';
 
 const instance = axios.create({
   baseURL: 'http://localhost:8080',
@@ -23,11 +24,6 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    const store = createStore();
-    const { status } = error.response;
-    if (status === 401) {
-      store.dispatch(authActions.signOutActions());
-    }
     return Promise.reject(error);
   }
 );

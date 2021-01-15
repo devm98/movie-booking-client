@@ -6,7 +6,6 @@ import React, { useEffect } from 'react';
 import { Container } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
-import { formatCash } from '../../../core/helpers';
 import {
   dataRoomSelector,
   loadingSeatsBookedSelector,
@@ -16,6 +15,7 @@ import useEnhance from '../useEnhance';
 import Row from './components/Row';
 import Seat from './components/Seat';
 import { RocketOutlined } from '@ant-design/icons';
+import { formatCash } from '../../../../core/helpers';
 
 function Auditorium() {
   const { id } = useParams();
@@ -109,10 +109,7 @@ function Auditorium() {
         <Divider />
         <div className="ticket__detail d-flex align-items-center">
           <div className="ticket__movie d-flex">
-            <img
-              src={`http://localhost:8080/image/movie/${id}.jpg`}
-              alt="movie"
-            />
+            <img src={`http://localhost:8080/images/${id}.jpg`} alt="movie" />
             <div>
               <p>{ticketInfo?.movieName}</p>
               <p>

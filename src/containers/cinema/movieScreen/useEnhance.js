@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getMovieDetails } from '../../core/api/movies';
-import { GetDates } from '../../core/helpers';
-import bookingActions from '../../state/actions/booking';
-import movieActions from '../../state/actions/movies';
+import { getMovieDetails } from '../../../core/api/movies';
+import { GetDates } from '../../../core/helpers';
+import bookingActions from '../../../state/actions/booking';
+import movieActions from '../../../state/actions/movies';
 import {
   dataRoomSelector,
   scheduleSelector,

@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { Card, Col, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
-import { formatCash } from '../../../core/helpers';
-import actions from '../../../state/actions/booking';
+import { formatCash } from '../../../../core/helpers';
+import actions from '../../../../state/actions/booking';
 import PaymentButton from './components/PaypalButtons';
 
 function Payment(props) {
@@ -61,7 +61,7 @@ function Payment(props) {
                       <img
                         alt="phim"
                         width="100%"
-                        src={`http://localhost:8080/image/movie/${state?.movieId}.jpg`}
+                        src={`http://localhost:8080/images/${state?.movieId}.jpg`}
                       />
                     </Col>
                     <Col md="9">
@@ -125,7 +125,7 @@ function Payment(props) {
                 <img
                   alt="phim"
                   width="100%"
-                  src={`http://localhost:8080/image/movie/${state?.movieId}.jpg`}
+                  src={`http://localhost:8080/images/${state?.movieId}.jpg`}
                 />
               </Col>
               <Col md="9">

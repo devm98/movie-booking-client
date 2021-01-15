@@ -1,15 +1,16 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import AppProvider from './AppProvider';
-import AppContainer from './containers/apps';
+import CinemaContainer from './containers/cinema';
+import AdminContainer from './containers/admin';
+import { PrivateRoute } from './shared/routes';
 
 const App = () => {
   return (
     <AppProvider>
       <Switch>
-        <Route path="/">
-          <AppContainer />
-        </Route>
+        <Route path="/" component={CinemaContainer} />
+        <PrivateRoute path="/admin" component={AdminContainer} />
       </Switch>
     </AppProvider>
   );

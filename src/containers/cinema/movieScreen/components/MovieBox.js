@@ -2,7 +2,7 @@ import { Button, Card, Col, Form, Modal, Spin, Steps } from 'antd';
 import React, { useState } from 'react';
 import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { GetDates } from '../../../core/helpers';
+import { GetDates } from '../../../../core/helpers';
 import stepsAntd from './steps';
 
 const arrDay = GetDates(7);
@@ -61,7 +61,7 @@ function MovieBox(props) {
             <img
               style={{ maxHeight: 330 }}
               alt="example"
-              src={`http://localhost:8080/image/movie/${id}.jpg`}
+              src={`http://localhost:8080/images/${id}.jpg`}
             />
           }
         >

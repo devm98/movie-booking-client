@@ -74,7 +74,7 @@ function Header() {
         </div>
       </div>
       <Divider style={styleDivider} />
-      <div className="menu-bar">
+      {/* <div className="menu-bar">
         <ul>
           <li>
             <Link to="/">Trang chủ</Link>
@@ -86,7 +86,7 @@ function Header() {
             <Link to={`/info`}>Thông tin</Link>
           </li>
         </ul>
-      </div>
+      </div> */}
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import scriptLoader from 'react-async-script-loader';
-import { exchangeMoney } from '../../../../core/helpers';
+import { exchangeMoney } from '../../../../../core/helpers';
 
 const CLIENT = {
   sandbox:

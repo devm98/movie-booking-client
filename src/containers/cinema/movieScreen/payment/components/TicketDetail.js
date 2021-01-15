@@ -14,7 +14,7 @@ function TicketDetail({ state }) {
             <img
               alt="phim"
               width="100%"
-              src={`http://localhost:8080/image/movie/${state?.movieId}.jpg`}
+              src={`http://localhost:8080/images/${state?.movieId}.jpg`}
             />
           </Col>
           <Col md="9">
