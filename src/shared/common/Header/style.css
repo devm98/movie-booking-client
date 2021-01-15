@@ -87,7 +87,7 @@ h2 {
   padding: 10px 0;
 }
 
-ul {
+/* ul {
   list-style-type: none;
   display: flex;
   justify-content: center;
@@ -106,7 +106,7 @@ li > a:hover {
   color: #555;
   text-decoration: none;
   border-bottom: 1px solid;
-}
+} */
 
 .active {
   padding-bottom: 13px;

@@ -1,0 +1,30 @@
+.components-layout-demo-custom-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  width: 100%;
+  z-index: 1;
+}
+.components-layout-demo-custom-trigger .trigger {
+  font-size: 1.2rem;
+  margin-right: 15px;
+}
+
+.components-layout-demo-custom-trigger .trigger:hover {
+  color: #1890ff;
+}
+
+.site-layout .site-layout-background {
+  background: #fff;
+}
+
+.sidebar-admin .ant-layout-sider-children .logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ant-sub-custom .ant-menu-submenu-title {
+  display: flex;
+  align-items: center;
+}

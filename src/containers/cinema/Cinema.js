@@ -25,7 +25,7 @@ const Cinema = () => {
         <Route exact path="/" component={MovieScreen} />
         <PrivateRoute path={`${path}seat-select/:id`} component={Auditorium} />
         <PrivateRoute path={`${path}payment`} component={Payment} />
-        <Route path={`${path}login`} component={LoginScreen} />
+        <Route path={`/login`} component={LoginScreen} />
       </Switch>
     </div>
   );
