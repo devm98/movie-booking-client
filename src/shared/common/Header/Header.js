@@ -58,7 +58,7 @@ function Header() {
         <div className="header__info">
           {!isEmpty(userInfo) ? (
             <>
-              <p>
+              <p className="mb-0">
                 Xin chào {userInfo.gender === 'm' ? 'anh' : 'chị'}{' '}
                 {userInfo.fullName}
               </p>

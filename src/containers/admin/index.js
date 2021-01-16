@@ -1,4 +1,9 @@
+import React from 'react';
 import Admin from './Admin';
 import './style.css';
+import useEnhance from './useEnhance';
 
-export default Admin;
+export default () => {
+  const changeProps = useEnhance();
+  return <Admin {...changeProps} />;
+};

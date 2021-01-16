@@ -5,6 +5,7 @@ import { AdminPrivateRoute } from '../../../shared/routes';
 import Header from '../components/Header';
 import Sidebar from '../components/Sidebar';
 import MovieManagement from '../movieManagement';
+import UserManagement from '../userManagement';
 
 const { Content } = Layout;
 
@@ -32,6 +33,10 @@ function Dashboard(props) {
             <AdminPrivateRoute
               path={`${path}/movies`}
               component={MovieManagement}
+            />
+            <AdminPrivateRoute
+              path={`${path}/users`}
+              component={UserManagement}
             />
           </Switch>
         </Content>

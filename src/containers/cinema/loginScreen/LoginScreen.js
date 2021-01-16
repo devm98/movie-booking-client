@@ -20,9 +20,7 @@ const tailLayout = {
 
 function LoginScreen() {
   const dispatch = useDispatch();
-
   const [redirectToReferrer, setRedirectToReferrer] = useState(false);
-
   const isLoggedIn = useSelector((state) => state?.auth?.idToken);
 
   const handleLogin = (data) => {
