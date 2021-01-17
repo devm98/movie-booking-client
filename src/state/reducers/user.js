@@ -11,6 +11,16 @@ const initState = {
     error: false,
     httpCode: -1,
   },
+  userUpdated: {
+    loading: false,
+    error: false,
+    httpCode: -1,
+  },
+  userDeleted: {
+    loading: false,
+    error: false,
+    httpCode: -1,
+  },
 };
 
 const movies = (state = initState, { type, payload }) => {
@@ -43,7 +53,6 @@ const movies = (state = initState, { type, payload }) => {
           loading: true,
         },
       };
-
     case actions.CREATE_USER.SUCCESS:
       return {
         ...state,
@@ -53,7 +62,6 @@ const movies = (state = initState, { type, payload }) => {
           httpCode: payload,
         },
       };
-
     case actions.CREATE_USER.FAILURE:
       return {
         ...state,
@@ -64,6 +72,93 @@ const movies = (state = initState, { type, payload }) => {
           httpCode: payload.error.code,
         },
       };
+    case actions.CREATE_USER.REFRESH:
+      return {
+        ...state,
+        userCreated: {
+          ...state.userCreated,
+          loading: false,
+          error: false,
+          httpCode: -1,
+        },
+      };
+
+    case actions.UPDATE_USER.REQUEST:
+      return {
+        ...state,
+        userUpdated: {
+          ...state.userUpdated,
+          loading: true,
+        },
+      };
+    case actions.UPDATE_USER.SUCCESS:
+      return {
+        ...state,
+        userUpdated: {
+          ...state.userUpdated,
+          loading: false,
+          httpCode: payload,
+        },
+      };
+    case actions.UPDATE_USER.FAILURE:
+      return {
+        ...state,
+        userUpdated: {
+          ...state.userUpdated,
+          loading: false,
+          error: payload.error,
+          httpCode: payload.error.code,
+        },
+      };
+    case actions.UPDATE_USER.REFRESH:
+      return {
+        ...state,
+        userUpdated: {
+          ...state.userUpdated,
+          loading: false,
+          error: false,
+          httpCode: -1,
+        },
+      };
+
+    case actions.REMOVE_USER.REQUEST:
+      return {
+        ...state,
+        userDeleted: {
+          ...state.userDeleted,
+          loading: true,
+        },
+      };
+    case actions.REMOVE_USER.SUCCESS:
+      return {
+        ...state,
+        userDeleted: {
+          ...state.userDeleted,
+          loading: false,
+          httpCode: payload,
+        },
+      };
+    case actions.REMOVE_USER.FAILURE:
+      return {
+        ...state,
+        userDeleted: {
+          ...state.userDeleted,
+          loading: false,
+          error: payload.error,
+          httpCode: payload.error.code,
+        },
+      };
+    case actions.REMOVE_USER.REFRESH:
+      return {
+        ...state,
+        userDeleted: {
+          ...state.userDeleted,
+          loading: false,
+          error: false,
+          httpCode: -1,
+        },
+      };
+
     default:
       return state;
   }

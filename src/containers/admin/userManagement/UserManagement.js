@@ -1,34 +1,133 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Space, Table, Tag } from 'antd';
+import {
+  Button,
+  Form,
+  Input,
+  Modal,
+  notification,
+  Space,
+  Table,
+  Tag,
+} from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ROLES } from '../../../constants/roles';
 import { getLoadingSelector, getUserSelectors } from '../selectors';
-import useEnhance from '../useEnhance';
 import CreateAndEditForm from './components/CreateAndEditForm';
 import moment from 'moment';
-import { getCreateLoadingSelector, getHttpCodeSelector } from '../selectors';
+import {
+  getCreateLoadingSelector,
+  getHttpCodeSelector,
+  getPagingSelectors,
+  getHttpCodeUpdateSelector,
+  getUpdateLoadingSelector,
+  getHttpCodeRemoveSelector,
+} from '../selectors';
+import userActions from '../../../state/actions/user';
 
-function UserManagement() {
-  const { onDispatchGetUsers, onCreateUser } = useEnhance();
+const { createUser, getUsers, updateUser, removeUser } = userActions;
+function UserManagement(props) {
+  const dispatch = useDispatch();
+  const [filters, setFilters] = useState({
+    email: null,
+    page: 1,
+    limit: 10,
+  });
+  const [userUpdated, setUserUpdated] = useState({});
+  const [isUpdate, setIsUpdate] = useState(false);
+
   const [visible, setVisible] = useState(false);
-
-  const onCreate = (values) => {
-    onCreateUser({
-      ...values,
-      password: values.confirm,
-      dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
-    });
-  };
+  const [form] = Form.useForm();
+  const [modal, contextHolder] = Modal.useModal();
+  const { defaultCurrent, defaultPageSize } = props;
 
   const data = useSelector(getUserSelectors);
+  const pagingInfo = useSelector(getPagingSelectors);
   const loading = useSelector(getLoadingSelector);
   const loadingCreated = useSelector(getCreateLoadingSelector);
   const httpCodeCreated = useSelector(getHttpCodeSelector);
+  const loadingUpdated = useSelector(getUpdateLoadingSelector);
+  const httpCodeUpdated = useSelector(getHttpCodeUpdateSelector);
+  const httpCodeDeleted = useSelector(getHttpCodeRemoveSelector);
+
+  const onCreateAndUpdate = (values) => {
+    if (isUpdate) {
+      dispatch(
+        updateUser({
+          ...values,
+          id: userUpdated.id,
+          dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
+        })
+      );
+    } else {
+      dispatch(
+        createUser({
+          ...values,
+          password: values.confirm,
+          dateOfBirth: moment(values.dateOfBirth).format('YYYY-MM-DD'),
+        })
+      );
+    }
+  };
 
   const handleCreateUser = () => {
+    setIsUpdate(false);
     setVisible(true);
   };
+
+  const onFilter = (params) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      ...params,
+      page: 1,
+    }));
+  };
+
+  const onPaginateChange = ({ current, pageSize }) => {
+    setFilters((prevState) => ({
+      ...prevState,
+      page: current,
+      limit: pageSize,
+    }));
+  };
+
+  const handleUpdateUser = (records) => {
+    setUserUpdated(records);
+    setIsUpdate(true);
+    setVisible(true);
+  };
+
+  const handleRemoveUser = (records) => {
+    dispatch(removeUser(records.id));
+  };
+
+  useEffect(() => {
+    dispatch(getUsers(filters));
+  }, [dispatch, filters]);
+
+  useEffect(() => {
+    if (httpCodeCreated === 200 || httpCodeUpdated === 200) {
+      setVisible(false);
+      dispatch(getUsers(filters));
+      setIsUpdate(false);
+      notification['success']({
+        message: `${isUpdate ? 'Cập nhật' : 'Tạo'} thành công`,
+        description: `Bạn vừa ${
+          isUpdate ? 'cập nhật' : 'tạo'
+        } người dùng thành công`,
+      });
+    }
+  }, [dispatch, filters, httpCodeCreated, httpCodeUpdated, isUpdate]);
+
+  useEffect(() => {
+    if (httpCodeDeleted === 200) {
+      dispatch(getUsers(filters));
+      notification['success']({
+        message: 'Xoá thành công',
+        description: 'Bạn vừa xoá người dùng khỏi hệ thống thành công',
+      });
+    }
+  });
 
   const columns = [
     {
@@ -78,12 +177,23 @@ function UserManagement() {
       key: 'action',
       align: 'center',
       width: 80,
-      render: () => (
+      render: (records) => (
         <Space size="middle" align="center">
           <EditOutlined
+            onClick={() => handleUpdateUser(records)}
             style={{ cursor: 'pointer', fontSize: '1.2rem', color: '#52c41a' }}
           />
           <DeleteOutlined
+            onClick={() => {
+              console.log('work');
+              modal.confirm({
+                title: 'Bạn có chắc muốn xoá ' + records.fullName,
+                content: `Nếu xoá thì người dùng ${records.fullName}, đồng nghĩa với việc người dùng này sẽ mất hết quyền truy cập vào hệ thống`,
+                onOk: () => handleRemoveUser(records),
+                okText: 'Đồng ý',
+                cancelText: 'Huỷ',
+              });
+            }}
             style={{ cursor: 'pointer', fontSize: '1.2rem', color: 'red' }}
           />
         </Space>
@@ -91,24 +201,18 @@ function UserManagement() {
     },
   ];
 
-  useEffect(() => {
-    onDispatchGetUsers();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (httpCodeCreated === 200) {
-      setVisible(false);
-      onDispatchGetUsers();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [httpCodeCreated]);
-
   return (
     <div>
       <div className="d-flex justify-content-between">
         <h5>Danh sách người dùng</h5>
-        <Form name="basic" initialValues={{ remember: true }} layout="inline">
+        <Form
+          form={form}
+          name="basic"
+          initialValues={{ remember: true }}
+          layout="inline"
+          style={{ justifyContent: 'flex-end' }}
+          onFinish={onFilter}
+        >
           <Form.Item label="Email" name="email">
             <Input />
           </Form.Item>
@@ -116,12 +220,25 @@ function UserManagement() {
             <Button type="primary" htmlType="submit">
               Tìm kiếm
             </Button>
+            <Button
+              style={{ margin: '0 8px' }}
+              onClick={() => {
+                form.resetFields();
+                dispatch(
+                  getUsers({
+                    page: defaultCurrent,
+                    limit: defaultPageSize,
+                  })
+                );
+              }}
+            >
+              Clear
+            </Button>
           </Form.Item>
         </Form>
       </div>
       <hr />
       <Button
-        loading={loadingCreated}
         onClick={handleCreateUser}
         type="primary"
         style={{
@@ -138,17 +255,42 @@ function UserManagement() {
         columns={columns}
         dataSource={data}
         scroll={{ x: 1200, y: 300 }}
-      />
-      {/* ================ Modal Edit and Create ================= */}
-      <CreateAndEditForm
-        visible={visible}
-        onCreate={onCreate}
-        onCancel={() => {
-          setVisible(false);
+        onChange={onPaginateChange}
+        pagination={{
+          current: filters.page,
+          defaultCurrent,
+          defaultPageSize,
+          showSizeChanger: true,
+          total: pagingInfo?.totalElements,
+          size: 'small',
+          showTotal: (total, range) =>
+            `${range[0]}-${range[1]} of ${total} items`,
         }}
       />
+      {/* ================ Modal Edit and Create ================= */}
+      {visible && (
+        <CreateAndEditForm
+          visible
+          isUpdate={isUpdate}
+          userUpdated={userUpdated}
+          loading={loadingCreated}
+          loadingUpdated={loadingUpdated}
+          onCreateAndUpdate={onCreateAndUpdate}
+          onCancel={() => {
+            setVisible(false);
+            setIsUpdate(false);
+          }}
+        />
+      )}
+      {contextHolder}
     </div>
   );
 }
+
+UserManagement.defaultProps = {
+  defaultCurrent: 1,
+  defaultPageSize: 10,
+  dataSource: [],
+};
 
 export default UserManagement;

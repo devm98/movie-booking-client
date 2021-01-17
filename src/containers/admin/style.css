@@ -51,3 +51,15 @@
   display: flex;
   align-items: center;
 }
+.multi-select-custom
+  .ant-select-selection-item
+  .ant-select-selection-item-remove {
+  line-height: initial;
+}
+
+.multi-select-custom .ant-select-clear {
+  line-height: 0;
+}
+.ant-form-item-control-input .ant-form-item-children-icon {
+  line-height: 13px;
+}

@@ -1,5 +1,9 @@
-import { DatePicker, Form, Input, Modal, Radio } from 'antd';
+import { DatePicker, Form, Input, Modal, Radio, Select } from 'antd';
 import React from 'react';
+import { ROLES } from '../../../../constants/roles';
+import moment from 'moment';
+
+const { Option } = Select;
 
 const formItemLayout = {
   labelCol: {
@@ -20,23 +24,31 @@ const formItemLayout = {
   },
 };
 
-const CreateAndEditForm = ({ visible, onCreate, onCancel }) => {
+const CreateAndEditForm = ({
+  visible,
+  onCreateAndUpdate,
+  onCancel,
+  loading,
+  loadingUpdated,
+  isUpdate,
+  userUpdated,
+}) => {
   const [form] = Form.useForm();
-
   return (
     <Modal
       visible={visible}
-      title="Tạo người dùng"
-      okText="Create"
-      cancelText="Cancel"
+      title={isUpdate ? 'Cập nhật người dùng' : 'Tạo người dùng'}
+      okText={isUpdate ? 'Cập nhật' : 'Tạo mới'}
+      cancelText="Huỷ"
       style={{ top: 20 }}
       onCancel={onCancel}
+      confirmLoading={loading || loadingUpdated}
       onOk={() => {
         form
           .validateFields()
           .then((values) => {
             form.resetFields();
-            onCreate(values);
+            onCreateAndUpdate(values);
           })
           .catch((info) => {
             console.log('Validate Failed:', info);
@@ -47,6 +59,7 @@ const CreateAndEditForm = ({ visible, onCreate, onCancel }) => {
         <Form.Item
           name="fullName"
           label="Họ và tên"
+          initialValue={isUpdate ? userUpdated.fullName : ''}
           rules={[
             {
               required: true,
@@ -57,6 +70,7 @@ const CreateAndEditForm = ({ visible, onCreate, onCancel }) => {
           <Input autoComplete="off" />
         </Form.Item>
         <Form.Item
+          initialValue={isUpdate ? userUpdated.email : ''}
           name="email"
           label="Email"
           rules={[
@@ -73,43 +87,47 @@ const CreateAndEditForm = ({ visible, onCreate, onCancel }) => {
           <Input autoComplete="off" />
         </Form.Item>
 
-        <Form.Item
-          name="password"
-          label="Mật khẩu"
-          rules={[
-            {
-              required: true,
-              message: 'Vui lòng nhập mật khẩu!',
-            },
-          ]}
-          hasFeedback
-        >
-          <Input.Password autoComplete="new-password" />
-        </Form.Item>
+        {!isUpdate && (
+          <>
+            <Form.Item
+              initialValue={isUpdate ? userUpdated.password : ''}
+              name="password"
+              label="Mật khẩu"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập mật khẩu!',
+                },
+              ]}
+              hasFeedback
+            >
+              <Input.Password autoComplete="new-password" />
+            </Form.Item>
+            <Form.Item
+              name="confirm"
+              label="Nhập lại mật khẩu"
+              dependencies={['password']}
+              hasFeedback
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui lòng nhập lại mật khẩu!',
+                },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (!value || getFieldValue('password') === value) {
+                      return Promise.resolve();
+                    }
 
-        <Form.Item
-          name="confirm"
-          label="Nhập lại mật khẩu"
-          dependencies={['password']}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: 'Vui lòng nhập lại mật khẩu!',
-            },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-
-                return Promise.reject('Mật khẩu không khớp!');
-              },
-            }),
-          ]}
-        >
-          <Input.Password autoComplete="new-password" />
-        </Form.Item>
+                    return Promise.reject('Mật khẩu không khớp!');
+                  },
+                }),
+              ]}
+            >
+              <Input.Password autoComplete="new-password" />
+            </Form.Item>
+          </>
+        )}
 
         <Form.Item
           name="phone"
@@ -124,10 +142,12 @@ const CreateAndEditForm = ({ visible, onCreate, onCancel }) => {
               message: 'Số điện thoại không đúng định dạng',
             },
           ]}
+          initialValue={isUpdate ? userUpdated.phone : ''}
         >
           <Input autoComplete="off" />
         </Form.Item>
         <Form.Item
+          initialValue={isUpdate ? userUpdated.address : ''}
           name="address"
           label="Địa chỉ"
           rules={[
@@ -140,6 +160,7 @@ const CreateAndEditForm = ({ visible, onCreate, onCancel }) => {
           <Input autoComplete="off" />
         </Form.Item>
         <Form.Item
+          initialValue={isUpdate ? userUpdated.gender : ''}
           name="gender"
           className="collection-create-form_last-form-item"
           label="Giới tính"
@@ -150,8 +171,38 @@ const CreateAndEditForm = ({ visible, onCreate, onCancel }) => {
             <Radio value="d">Khác</Radio>
           </Radio.Group>
         </Form.Item>
-        <Form.Item name="dateOfBirth" label="Ngày sinh">
+        <Form.Item
+          name="dateOfBirth"
+          label="Ngày sinh"
+          style={{ width: '100%' }}
+          initialValue={
+            userUpdated.dateOfBirth
+              ? moment(userUpdated.dateOfBirth, 'DD-MM-YYYY')
+              : ''
+          }
+        >
           <DatePicker format="DD/MM/YYYY" />
+        </Form.Item>
+        <Form.Item
+          name="roles"
+          label="Vai trò"
+          rules={[
+            {
+              required: true,
+              message: 'Vui lòng chọn vai trò cho người dùng!',
+            },
+          ]}
+          initialValue={
+            isUpdate ? userUpdated.roles.map((role) => role.name) : []
+          }
+        >
+          <Select className="multi-select-custom" allowClear mode="multiple">
+            {Object.keys(ROLES).map((role, i) => (
+              <Option key={i} value={role}>
+                {ROLES[role].value}
+              </Option>
+            ))}
+          </Select>
         </Form.Item>
       </Form>
     </Modal>
