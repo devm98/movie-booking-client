@@ -1,4 +1,4 @@
-import { stateCreator } from '../../core/helpers';
+import { stateCreator } from '../../helpers';
 import actions from '../actions/booking';
 
 const stateList = ['schedule', 'room', 'seat', 'ticket'];

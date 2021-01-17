@@ -1,4 +1,4 @@
-import { actionCreator } from '../../core/helpers';
+import { actionCreator } from '../../helpers';
 
 const actions = {
   GET_USER_LIST: actionCreator('GET_USER_LIST'),

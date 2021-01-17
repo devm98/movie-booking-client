@@ -23,7 +23,7 @@ import {
   getUpdateLoadingSelector,
   getHttpCodeRemoveSelector,
 } from '../selectors';
-import userActions from '../../../state/actions/user';
+import userActions from '../../../core/state/actions/user';
 
 const { createUser, getUsers, updateUser, removeUser } = userActions;
 function UserManagement(props) {
@@ -176,7 +176,8 @@ function UserManagement(props) {
       title: 'Hành động',
       key: 'action',
       align: 'center',
-      width: 80,
+      width: 100,
+      fixed: 'right',
       render: (records) => (
         <Space size="middle" align="center">
           <EditOutlined
@@ -185,7 +186,6 @@ function UserManagement(props) {
           />
           <DeleteOutlined
             onClick={() => {
-              console.log('work');
               modal.confirm({
                 title: 'Bạn có chắc muốn xoá ' + records.fullName,
                 content: `Nếu xoá thì người dùng ${records.fullName}, đồng nghĩa với việc người dùng này sẽ mất hết quyền truy cập vào hệ thống`,

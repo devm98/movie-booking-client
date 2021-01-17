@@ -1,4 +1,4 @@
-import { actionCreator } from '../../core/helpers';
+import { actionCreator } from '../../helpers';
 const actions = {
   GET_MOVIE_SCHEDULE: actionCreator('GET_MOVIE_SCHEDULE'),
   GET_ROOM: actionCreator('GET_ROOM'),

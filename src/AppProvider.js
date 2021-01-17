@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // config redux
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import configStore from './state/redux/configStore';
+import configStore from './core/state/redux/configStore';
 
 const store = configStore();
 

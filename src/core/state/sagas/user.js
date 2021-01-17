@@ -1,10 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
-import {
-  getUsers,
-  createUser,
-  updateUser,
-  removeUser,
-} from '../../core/api/user';
+import { getUsers, createUser, updateUser, removeUser } from '../../api/user';
 import actions from '../actions/user';
 
 function* getUsersSaga({ payload }) {

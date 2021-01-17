@@ -1,4 +1,4 @@
-import { actionCreator } from '../../core/helpers';
+import { actionCreator } from '../../helpers';
 
 const actions = {
   SIGN_IN: actionCreator('SIGN_IN'),

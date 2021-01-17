@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import authActions from '../../state/actions/auth';
+import authActions from '../../core/state/actions/auth';
 
 const { signInActions } = authActions;
 

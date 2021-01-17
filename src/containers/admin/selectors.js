@@ -49,3 +49,52 @@ export const getHttpCodeRemoveSelector = createSelector(
   (state) => state?.user?.userDeleted?.httpCode,
   (httpCode) => httpCode
 );
+
+//========== Movie management ==================
+export const getMovieAllSelectors = createSelector(
+  (state) => state?.movies?.movieAll?.data,
+  (movieAll) =>
+    movieAll?.map((movie) => ({
+      ...movie,
+      key: movie.id,
+    }))
+);
+export const getLoadingMovieAllSelectors = createSelector(
+  (state) => state?.movies?.movieAll?.loading,
+  (loading) => loading
+);
+
+export const getPageInfoMovieAllSelectors = createSelector(
+  (state) => state?.movies?.movieAll?.pageInfo,
+  (pageInfo) => pageInfo
+);
+
+export const getMovieCreateLoadingSelector = createSelector(
+  (state) => state?.movies?.movieCreated?.loading,
+  (loading) => loading
+);
+
+export const getMovieCreateHttpCodeSelector = createSelector(
+  (state) => state?.movies?.movieCreated?.httpCode,
+  (httpCode) => httpCode
+);
+
+export const getMovieUpdateLoadingSelector = createSelector(
+  (state) => state?.movies?.movieUpdated?.loading,
+  (loading) => loading
+);
+
+export const getMovieHttpCodeUpdateSelector = createSelector(
+  (state) => state?.movies?.movieUpdated?.httpCode,
+  (httpCode) => httpCode
+);
+
+export const getMovieRemoveLoadingSelector = createSelector(
+  (state) => state?.movies?.movieDeleted?.loading,
+  (loading) => loading
+);
+
+export const getMovieHttpCodeRemoveSelector = createSelector(
+  (state) => state?.movies?.movieDeleted?.httpCode,
+  (httpCode) => httpCode
+);

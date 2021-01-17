@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import actions from '../../../state/actions/auth';
+import actions from '../../../core/state/actions/auth';
 
 const { signInActions } = actions;
 

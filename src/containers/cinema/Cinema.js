@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
 import { Header } from '../../shared/common';
 import { PrivateRoute } from '../../shared/routes';
-import authAction from '../../state/actions/auth';
+import authAction from '../../core/state/actions/auth';
 import LoginScreen from './loginScreen/LoginScreen';
 import MovieScreen from './movieScreen';
 import Auditorium from './movieScreen/auditorium';
@@ -25,7 +25,7 @@ const Cinema = () => {
         <Route exact path="/" component={MovieScreen} />
         <PrivateRoute path={`${path}seat-select/:id`} component={Auditorium} />
         <PrivateRoute path={`${path}payment`} component={Payment} />
-        <Route path={`/login`} component={LoginScreen} />
+        <Route path={`${path}login`} component={LoginScreen} />
       </Switch>
     </div>
   );

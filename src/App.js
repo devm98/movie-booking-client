@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import CinemaContainer from './containers/cinema';
 import AdminContainer from './containers/admin';
-import authActions from './state/actions/auth';
+import authActions from './core/state/actions/auth';
 import { useDispatch } from 'react-redux';
 
 const App = () => {
@@ -16,8 +16,7 @@ const App = () => {
     <Switch>
       <Route exact path="/" component={CinemaContainer} />
       <Route path="/admin" component={AdminContainer} />
-      {/* <Route component={CinemaContainer} /> */}
-      <Route component={AdminContainer} />
+      <Route component={CinemaContainer} />
     </Switch>
   );
 };

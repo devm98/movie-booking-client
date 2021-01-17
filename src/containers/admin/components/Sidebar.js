@@ -4,7 +4,6 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
-import SubMenu from 'antd/lib/menu/SubMenu';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -37,21 +36,14 @@ function Sidebar({ collapse }) {
         theme="dark"
         style={{ height: '100%', borderRight: 0 }}
       >
-        <SubMenu
-          className="ant-sub-custom"
-          key="sub1"
-          icon={<PlaySquareOutlined />}
-          title="Quản lý phim"
-        >
-          <Menu.Item key="1">Phim đang chiếu</Menu.Item>
-          <Menu.Item key="2">Phim sắp chiếu</Menu.Item>
-          <Menu.Item key="3">Suất chiếu</Menu.Item>
-        </SubMenu>
-        <Menu.Item icon={<UserOutlined />} key="4">
-          <Link to="/admin/users">Quản lý người dùng</Link>
+        <Menu.Item icon={<PlaySquareOutlined />} key="1">
+          <Link to="/admin/movies">Quản lý Phim</Link>
         </Menu.Item>
-        <Menu.Item icon={<NodeExpandOutlined />} key="5">
-          Quản lý phân quyền
+        <Menu.Item icon={<UserOutlined />} key="2">
+          <Link to="/admin/users">Quản lý Người Dùng</Link>
+        </Menu.Item>
+        <Menu.Item icon={<NodeExpandOutlined />} key="3">
+          <Link to="/admin/roles">Quản lý Người Dùng</Link>
         </Menu.Item>
       </Menu>
     </Sider>

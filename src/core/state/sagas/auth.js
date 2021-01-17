@@ -1,5 +1,5 @@
 import { call, all, put, takeLatest } from 'redux-saga/effects';
-import { signInHandler } from '../../core/api/auth';
+import { signInHandler } from '../../api/auth';
 import { createBrowserHistory } from 'history';
 import actions from '../actions/auth';
 import {
@@ -8,7 +8,7 @@ import {
   clearToken,
   getToken,
   loadState,
-} from '../../core/helpers';
+} from '../../helpers';
 
 const history = createBrowserHistory();
 

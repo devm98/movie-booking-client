@@ -5,7 +5,7 @@ import { Card, Col, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect, useHistory } from 'react-router-dom';
 import { formatCash } from '../../../../core/helpers';
-import actions from '../../../../state/actions/booking';
+import actions from '../../../../core/state/actions/booking';
 import PaymentButton from './components/PaypalButtons';
 
 function Payment(props) {

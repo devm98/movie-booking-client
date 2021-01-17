@@ -5,7 +5,7 @@ import {
   getRoomAction,
   getSeatBooked,
   bookingTicket,
-} from '../../core/api/booking';
+} from '../../api/booking';
 
 function* getMovieSchedules({ payload }) {
   try {
