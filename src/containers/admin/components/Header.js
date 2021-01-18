@@ -3,10 +3,11 @@ import {
   MenuUnfoldOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Avatar, Breadcrumb, Layout } from 'antd';
+import { Avatar, Breadcrumb, Dropdown, Layout, Menu } from 'antd';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import actions from '../../../core/state/actions/auth';
 
 const breadcrumbNameMap = {
   '/admin': 'Quản lý phim',
@@ -17,6 +18,21 @@ const breadcrumbNameMap = {
 function Header({ collapse, onToggle }) {
   const location = useLocation();
   const userInfo = useSelector((state) => state?.auth?.userInfo);
+  const dispatch = useDispatch();
+
+  const menu = (
+    <Menu>
+      <Menu.Item key="0">Profile</Menu.Item>
+      <Menu.Item
+        onClick={() => {
+          dispatch(actions.signOutActions());
+        }}
+        key="1"
+      >
+        Đăng xuất
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <Layout.Header className="site-layout-background components-layout-demo-custom-trigger">
@@ -31,19 +47,24 @@ function Header({ collapse, onToggle }) {
           </Breadcrumb.Item>
         </Breadcrumb>
       </div>
-      <div className="d-flex align-items-center">
-        Hi! {userInfo.fullName}
-        <Avatar
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginLeft: 10,
-          }}
-          size="large"
-          icon={<UserOutlined />}
-        />
-      </div>
+      <Dropdown overlay={menu} trigger={['click']}>
+        <div
+          onClick={(e) => e.preventDefault()}
+          className="d-flex align-items-center"
+        >
+          Hi! {userInfo.fullName}
+          <Avatar
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginLeft: 10,
+            }}
+            size="large"
+            icon={<UserOutlined />}
+          />
+        </div>
+      </Dropdown>
     </Layout.Header>
   );
 }
