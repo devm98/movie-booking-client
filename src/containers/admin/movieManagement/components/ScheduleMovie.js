@@ -1,5 +1,14 @@
 import React from 'react';
-import { Form, Input, Button, Space, DatePicker, Select, Spin } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  Space,
+  DatePicker,
+  Select,
+  Spin,
+  notification,
+} from 'antd';
 import {
   DollarOutlined,
   MinusCircleOutlined,
@@ -23,6 +32,9 @@ const AUDITORIUM = [
 const ScheduleMovie = ({ scheduleMovie, setScheduleMovie }) => {
   const onFinish = (values) => {
     setScheduleMovie(values.showings);
+    notification['success']({
+      message: `Lưu thành công`,
+    });
   };
 
   const schedules = useSelector(getScheduleSelector);
@@ -90,7 +102,7 @@ const ScheduleMovie = ({ scheduleMovie, setScheduleMovie }) => {
                   block
                   icon={<PlusOutlined />}
                 >
-                  Add field
+                  Thêm suất mới
                 </Button>
               </Form.Item>
             </>
@@ -98,7 +110,7 @@ const ScheduleMovie = ({ scheduleMovie, setScheduleMovie }) => {
         </Form.List>
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            Submit
+            Lưu lại
           </Button>
         </Form.Item>
       </Form>
