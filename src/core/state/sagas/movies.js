@@ -9,9 +9,9 @@ import {
   deleteMovie,
 } from '../../api/movies';
 
-function* getComingSoonMovie() {
+function* getComingSoonMovie({ payload }) {
   try {
-    const results = yield call(getComingSoon);
+    const results = yield call(getComingSoon, payload);
     const { data, errorCode, pageInfo } = results.data;
 
     yield put({
@@ -32,9 +32,9 @@ function* getComingSoonMovie() {
   }
 }
 
-function* getNowShowingMovie() {
+function* getNowShowingMovie({ payload }) {
   try {
-    const results = yield call(getNowShowing);
+    const results = yield call(getNowShowing, payload);
     const { data, errorCode, pageInfo } = results.data;
 
     yield put({

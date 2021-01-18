@@ -1,5 +1,5 @@
 import { call, all, put, takeLatest } from 'redux-saga/effects';
-import { signInHandler } from '../../api/auth';
+import { signInHandler, registerCustomer } from '../../api/auth';
 import { createBrowserHistory } from 'history';
 import actions from '../actions/auth';
 import {
@@ -40,6 +40,26 @@ function* signIn({ payload }) {
   }
 }
 
+function* registerUserSaga({ payload }) {
+  try {
+    const results = yield call(registerCustomer, payload);
+    const { code } = results.data;
+    yield put({
+      type: actions.REGISTER_USER.SUCCESS,
+      payload: code,
+    });
+  } catch (error) {
+    yield put({
+      type: actions.REGISTER_USER.FAILURE,
+      payload: error,
+    });
+  } finally {
+    yield put({
+      type: actions.REGISTER_USER.REFRESH,
+    });
+  }
+}
+
 function* checkAuthentication() {
   try {
     const [token, userInfo] = yield all([getToken(), loadState('user_info')]);
@@ -68,4 +88,5 @@ export default function* authSaga() {
   yield takeLatest(actions.SIGN_IN.REQUEST, signIn);
   yield takeLatest(actions.SIGN_OUT, signOut);
   yield takeLatest(actions.CHECK_AUTHENTICATION, checkAuthentication);
+  yield takeLatest(actions.REGISTER_USER.REQUEST, registerUserSaga);
 }

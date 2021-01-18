@@ -5,6 +5,11 @@ const initState = {
   idToken: null,
   error: false,
   userInfo: {},
+  register: {
+    loading: false,
+    error: false,
+    httpCode: -1,
+  },
 };
 
 const auth = (state = initState, { type, payload }) => {
@@ -14,7 +19,6 @@ const auth = (state = initState, { type, payload }) => {
         ...state,
         loading: true,
       };
-
     case actions.SIGN_IN.REQUEST:
       return {
         ...state,
@@ -41,6 +45,44 @@ const auth = (state = initState, { type, payload }) => {
 
     case actions.SIGN_OUT:
       return initState;
+
+    case actions.REGISTER_USER.REQUEST:
+      return {
+        ...state,
+        register: {
+          ...state.register,
+          loading: true,
+        },
+      };
+    case actions.REGISTER_USER.SUCCESS:
+      return {
+        ...state,
+        register: {
+          ...state.register,
+          loading: false,
+          httpCode: payload,
+        },
+      };
+    case actions.REGISTER_USER.FAILURE:
+      return {
+        ...state,
+        register: {
+          ...state.register,
+          loading: false,
+          error: payload.error,
+          httpCode: payload.error.code,
+        },
+      };
+    case actions.REGISTER_USER.REFRESH:
+      return {
+        ...state,
+        register: {
+          ...state.register,
+          loading: false,
+          error: false,
+          httpCode: -1,
+        },
+      };
 
     default:
       return state;

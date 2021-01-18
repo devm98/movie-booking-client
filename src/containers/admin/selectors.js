@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { createSelector } from 'reselect';
 
 export const getUserSelectors = createSelector(
@@ -97,4 +98,18 @@ export const getMovieRemoveLoadingSelector = createSelector(
 export const getMovieHttpCodeRemoveSelector = createSelector(
   (state) => state?.movies?.movieDeleted?.httpCode,
   (httpCode) => httpCode
+);
+
+export const getScheduleSelector = createSelector(
+  (state) => state?.booking?.schedule?.data,
+  (schedule) =>
+    schedule.map((obj) => ({
+      showingDate: moment(obj.showingDate),
+      auditoriumId: obj.auditoriumId,
+      price: obj.price,
+    }))
+);
+export const getLoadingScheduleSelector = createSelector(
+  (state) => state?.booking?.schedule?.loading,
+  (loading) => loading
 );

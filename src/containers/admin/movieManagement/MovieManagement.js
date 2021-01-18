@@ -1,7 +1,8 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Modal, notification, Space, Table } from 'antd';
+import { Button, Modal, notification, Space, Table } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import bookingActions from '../../../core/state/actions/booking';
 import movieActions from '../../../core/state/actions/movies';
 import {
   getLoadingMovieAllSelectors,
@@ -16,18 +17,21 @@ import {
 import CreateAndEditForm from './components/CreateAndEditForm';
 
 const { getAllMovie, createMovie, updateMovie, removeMovie } = movieActions;
+
 function MovieManagement(props) {
   const dispatch = useDispatch();
   const [filters, setFilters] = useState({
     email: null,
     page: 1,
     limit: 10,
+    query: undefined,
   });
   const [movieUpdated, setMovieUpdated] = useState({});
   const [isUpdate, setIsUpdate] = useState(false);
+  const [scheduleMovie, setScheduleMovie] = useState([]);
 
   const [visible, setVisible] = useState(false);
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
   const [modal, contextHolder] = Modal.useModal();
   const { defaultCurrent, defaultPageSize } = props;
 
@@ -49,6 +53,7 @@ function MovieManagement(props) {
           ...values,
           id: movieUpdated.id,
           description: values.description.content,
+          showingSchedules: scheduleMovie,
         })
       );
     } else {
@@ -56,6 +61,7 @@ function MovieManagement(props) {
         createMovie({
           ...values,
           description: values.description.content,
+          showingSchedules: scheduleMovie,
         })
       );
     }
@@ -64,15 +70,16 @@ function MovieManagement(props) {
   const handleCreateMovie = () => {
     setIsUpdate(false);
     setVisible(true);
+    setScheduleMovie([]);
   };
 
-  const onFilter = (params) => {
-    setFilters((prevState) => ({
-      ...prevState,
-      ...params,
-      page: 1,
-    }));
-  };
+  // const onFilter = (params) => {
+  //   setFilters((prevState) => ({
+  //     ...prevState,
+  //     ...params,
+  //     page: 1,
+  //   }));
+  // };
 
   const onPaginateChange = ({ current, pageSize }) => {
     setFilters((prevState) => ({
@@ -86,6 +93,12 @@ function MovieManagement(props) {
     setMovieUpdated(records);
     setIsUpdate(true);
     setVisible(true);
+    dispatch(
+      bookingActions.getMovieSchedule({
+        type: '-1',
+        movieId: records.id,
+      })
+    );
   };
 
   const handleDeleteMovie = (records) => {
@@ -200,16 +213,18 @@ function MovieManagement(props) {
     <div>
       <div className="d-flex justify-content-between">
         <h5>Danh sách phim</h5>
-        <Form
+        {/* <Form
           form={form}
           name="basic"
-          initialValues={{ remember: true }}
           layout="inline"
           style={{ justifyContent: 'flex-end' }}
           onFinish={onFilter}
         >
-          <Form.Item label="Email" name="email">
-            <Input />
+          <Form.Item label="Thời điểm" name="query">
+            <Select style={{ width: 200 }}>
+              <Option value="now-showing">Đang chiếu</Option>
+              <Option value="coming-soon">Sắp chiếu</Option>
+            </Select>
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit">
@@ -230,7 +245,7 @@ function MovieManagement(props) {
               Clear
             </Button>
           </Form.Item>
-        </Form>
+        </Form>*/}
       </div>
       <hr />
       <Button
@@ -271,6 +286,8 @@ function MovieManagement(props) {
           loading={loadingCreated}
           loadingUpdated={loadingUpdated}
           onCreateAndUpdate={onCreateAndUpdate}
+          scheduleMovie={scheduleMovie}
+          setScheduleMovie={setScheduleMovie}
           onCancel={() => {
             setVisible(false);
             setIsUpdate(false);

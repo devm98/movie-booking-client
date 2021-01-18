@@ -4,6 +4,7 @@ import { Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { GetDates } from '../../../../core/helpers';
 import stepsAntd from './steps';
+import moment from 'moment';
 
 const arrDay = GetDates(7);
 
@@ -76,7 +77,11 @@ function MovieBox(props) {
                 {title}
               </p>
             }
-            description={<div>{`${duration} phút | ${releaseDate}`}</div>}
+            description={
+              <div>{`${duration} phút | ${moment(releaseDate).format(
+                'DD/MM/YYYY'
+              )}`}</div>
+            }
           />
         </Card>
       </Col>

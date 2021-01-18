@@ -41,6 +41,8 @@ function UserManagement(props) {
   const [modal, contextHolder] = Modal.useModal();
   const { defaultCurrent, defaultPageSize } = props;
 
+  const roles = useSelector((state) => state?.auth?.userInfo?.roles);
+  const rolesMap = roles.map((item) => item.name);
   const data = useSelector(getUserSelectors);
   const pagingInfo = useSelector(getPagingSelectors);
   const loading = useSelector(getLoadingSelector);
@@ -181,18 +183,23 @@ function UserManagement(props) {
       render: (records) => (
         <Space size="middle" align="center">
           <EditOutlined
-            onClick={() => handleUpdateUser(records)}
+            onClick={() =>
+              rolesMap?.includes('ROLE_ADMIN') && handleUpdateUser(records)
+            }
             style={{ cursor: 'pointer', fontSize: '1.2rem', color: '#52c41a' }}
           />
           <DeleteOutlined
             onClick={() => {
-              modal.confirm({
-                title: 'Bạn có chắc muốn xoá ' + records.fullName,
-                content: `Nếu xoá thì người dùng ${records.fullName}, đồng nghĩa với việc người dùng này sẽ mất hết quyền truy cập vào hệ thống`,
-                onOk: () => handleRemoveUser(records),
-                okText: 'Đồng ý',
-                cancelText: 'Huỷ',
-              });
+              rolesMap?.includes('ROLE_ADMIN') &&
+                modal.confirm({
+                  title: 'Bạn có chắc muốn xoá ' + records.fullName,
+                  content: `Nếu xoá thì người dùng ${records.fullName}, đồng nghĩa với việc người dùng này sẽ mất hết quyền truy cập vào hệ thống`,
+                  onOk: () =>
+                    rolesMap?.includes('ROLE_ADMIN') &&
+                    handleRemoveUser(records),
+                  okText: 'Đồng ý',
+                  cancelText: 'Huỷ',
+                });
             }}
             style={{ cursor: 'pointer', fontSize: '1.2rem', color: 'red' }}
           />
@@ -245,6 +252,7 @@ function UserManagement(props) {
           float: 'right',
           marginBottom: 16,
         }}
+        disabled={!rolesMap?.includes('ROLE_ADMIN')}
       >
         Tạo người dùng
       </Button>

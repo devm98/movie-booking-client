@@ -4,7 +4,8 @@ import { Route, Switch, useLocation, useRouteMatch } from 'react-router-dom';
 import { Header } from '../../shared/common';
 import { PrivateRoute } from '../../shared/routes';
 import authAction from '../../core/state/actions/auth';
-import LoginScreen from './loginScreen/LoginScreen';
+import LoginScreen from './loginScreen';
+import RegisterScreen from './registerScreen';
 import MovieScreen from './movieScreen';
 import Auditorium from './movieScreen/auditorium';
 import Payment from './movieScreen/payment';
@@ -26,6 +27,7 @@ const Cinema = () => {
         <PrivateRoute path={`${path}seat-select/:id`} component={Auditorium} />
         <PrivateRoute path={`${path}payment`} component={Payment} />
         <Route path={`${path}login`} component={LoginScreen} />
+        <Route path={`${path}register`} component={RegisterScreen} />
       </Switch>
     </div>
   );

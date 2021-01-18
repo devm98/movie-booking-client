@@ -1,6 +1,7 @@
 import {
-  NodeExpandOutlined,
+  // NodeExpandOutlined,
   PlaySquareOutlined,
+  SwapOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu } from 'antd';
@@ -42,8 +43,8 @@ function Sidebar({ collapse }) {
         <Menu.Item icon={<UserOutlined />} key="2">
           <Link to="/admin/users">Quản lý Người Dùng</Link>
         </Menu.Item>
-        <Menu.Item icon={<NodeExpandOutlined />} key="3">
-          <Link to="/admin/roles">Quản lý Người Dùng</Link>
+        <Menu.Item icon={<SwapOutlined />} key="3">
+          <Link to="/">Quay về trang người dùng</Link>
         </Menu.Item>
       </Menu>
     </Sider>

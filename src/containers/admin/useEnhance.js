@@ -7,7 +7,6 @@ const useEnhance = () => {
   const dispatch = useDispatch();
 
   const adminLoginHandler = ({ email, password }) => {
-    console.log({ email, password });
     dispatch(signInActions({ email, password }));
   };
 

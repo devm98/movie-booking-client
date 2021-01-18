@@ -2,7 +2,7 @@ import React from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-function Editor({ value = {}, onChange }) {
+function Editor({ value = {}, onChange, valueUpdate }) {
   const triggerChange = (changedValue) => {
     if (onChange) {
       onChange({
@@ -22,7 +22,7 @@ function Editor({ value = {}, onChange }) {
         modules={Editor.modules}
         formats={Editor.formats}
         theme="snow"
-        value={value.content || ''}
+        value={value.content || valueUpdate}
         onChange={onChangeEditor}
       />
     </div>

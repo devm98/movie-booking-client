@@ -12,7 +12,7 @@ function MovieGrid({ movies, ...rest }) {
           id={movie.id}
           title={movie?.title}
           duration={movie?.duration}
-          releaseDate={moment(movie?.releaseDate).format('DD/MM/YYYY')}
+          releaseDate={moment(movie?.releaseDate, 'DD-MM-YYYY')}
           {...rest}
         />
       ))}

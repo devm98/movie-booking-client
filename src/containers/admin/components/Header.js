@@ -1,12 +1,23 @@
-import React from 'react';
-import { Avatar, Breadcrumb, Layout } from 'antd';
 import {
-  AntDesignOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  UserOutlined,
 } from '@ant-design/icons';
+import { Avatar, Breadcrumb, Layout } from 'antd';
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+
+const breadcrumbNameMap = {
+  '/admin': 'Quản lý phim',
+  '/admin/movies': 'Quản lý phim',
+  '/admin/users': 'Quản lý user',
+};
 
 function Header({ collapse, onToggle }) {
+  const location = useLocation();
+  const userInfo = useSelector((state) => state?.auth?.userInfo);
+
   return (
     <Layout.Header className="site-layout-background components-layout-demo-custom-trigger">
       <div className="d-flex align-items-center">
@@ -15,12 +26,24 @@ function Header({ collapse, onToggle }) {
           onClick: onToggle,
         })}
         <Breadcrumb>
-          <Breadcrumb.Item>Home</Breadcrumb.Item>
-          <Breadcrumb.Item>List</Breadcrumb.Item>
-          <Breadcrumb.Item>App</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            {breadcrumbNameMap[location.pathname]}
+          </Breadcrumb.Item>
         </Breadcrumb>
       </div>
-      <Avatar icon={<AntDesignOutlined />} />
+      <div className="d-flex align-items-center">
+        Hi! {userInfo.fullName}
+        <Avatar
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            marginLeft: 10,
+          }}
+          size="large"
+          icon={<UserOutlined />}
+        />
+      </div>
     </Layout.Header>
   );
 }

@@ -1,3 +1,4 @@
+import { LockOutlined, MailOutlined } from '@ant-design/icons';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faPhoneAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -5,7 +6,7 @@ import { Button, Form, Input } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Card, Container } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import actions from '../../../core/state/actions/auth';
 
 const { signInActions } = actions;
@@ -81,39 +82,43 @@ function LoginScreen() {
           <Card.Body className="pt-5">
             <Form {...layout} name="basic" onFinish={handleLogin}>
               <Form.Item
-                label="Email"
                 name="email"
+                {...tailLayout}
                 rules={[
-                  {
-                    required: true,
-                    message: 'Please input your username!',
-                  },
+                  { required: true, message: 'Vui lòng nhập email!' },
+                  { type: 'email', message: 'Email sai định dạng' },
                 ]}
               >
-                <Input />
+                <Input
+                  prefix={<MailOutlined className="site-form-item-icon" />}
+                  placeholder="Email"
+                />
               </Form.Item>
-
               <Form.Item
-                label="Password"
                 name="password"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please input your password!',
-                  },
-                ]}
+                {...tailLayout}
+                rules={[{ required: true, message: 'Vui lòng nhập mật khẩu' }]}
               >
-                <Input.Password />
+                <Input
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  type="password"
+                  placeholder="Password"
+                />
               </Form.Item>
-
               <Form.Item {...tailLayout}>
                 <Button
-                  style={{ width: '100%' }}
                   type="primary"
                   htmlType="submit"
+                  className="login-form-button"
+                  style={{ width: '100%' }}
                 >
-                  Submit
+                  Đăng nhập
                 </Button>
+                <div className="text-center mt-2">
+                  Hoặc
+                  <br />
+                  <Link to="/register">Đăng ký ngay bây giờ !</Link>
+                </div>
               </Form.Item>
             </Form>
           </Card.Body>
