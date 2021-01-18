@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock, faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { notification } from 'antd';
 
 function AdminLogin({ adminLoginHandler }) {
   const [loginValue, setLoginValue] = useState({
@@ -21,6 +22,15 @@ function AdminLogin({ adminLoginHandler }) {
         setHasRedirect(true);
     }
   }, [idToken, roles]);
+
+  useEffect(() => {
+    if (!(roles?.includes('ROLE_ADMIN') || roles?.includes('ROLE_MODERATOR'))) {
+      notification['error']({
+        message: `Bạn không có quyền truy cập`,
+        description: `Vui lòng liên hệ admin để được cấp quyền truy cập vào hệ thống`,
+      });
+    }
+  }, [roles]);
 
   const handleInputChange = (e) => {
     const { value, name } = e.target;
