@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import LoginLogo from './images/img-01.png';
+import { faEnvelope, faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock, faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import LoginLogo from './images/img-01.png';
 
 function AdminLogin({ adminLoginHandler }) {
   const [loginValue, setLoginValue] = useState({
