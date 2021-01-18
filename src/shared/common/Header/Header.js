@@ -6,8 +6,8 @@ import { Button, Divider } from 'antd';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import actions from '../../../state/actions/auth';
-import './style.css';
+import actions from '../../../core/state/actions/auth';
+import './styles.scss';
 import { isEmpty } from 'lodash';
 
 const styleDivider = {
@@ -58,7 +58,7 @@ function Header() {
         <div className="header__info">
           {!isEmpty(userInfo) ? (
             <>
-              <p>
+              <p className="mb-0">
                 Xin chào {userInfo.gender === 'm' ? 'anh' : 'chị'}{' '}
                 {userInfo.fullName}
               </p>
@@ -74,7 +74,7 @@ function Header() {
         </div>
       </div>
       <Divider style={styleDivider} />
-      <div className="menu-bar">
+      {/* <div className="menu-bar">
         <ul>
           <li>
             <Link to="/">Trang chủ</Link>
@@ -86,7 +86,7 @@ function Header() {
             <Link to={`/info`}>Thông tin</Link>
           </li>
         </ul>
-      </div>
+      </div> */}
     </>
   );
 }
