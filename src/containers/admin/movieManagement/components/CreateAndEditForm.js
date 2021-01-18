@@ -1,10 +1,20 @@
-import { ClockCircleOutlined, UploadOutlined } from '@ant-design/icons';
-import { DatePicker, Form, Input, Modal, Tabs, Upload } from 'antd';
+import {
+  ClockCircleOutlined,
+  // UploadOutlined
+} from '@ant-design/icons';
+import {
+  DatePicker,
+  Form,
+  Input,
+  Modal,
+  Tabs,
+  // Upload
+} from 'antd';
 import React from 'react';
 import Editor from './Editor';
 import moment from 'moment';
 import ScheduleMovie from './ScheduleMovie';
-import { Button } from 'antd/lib/radio';
+// import { Button } from 'antd/lib/radio';
 
 const formItemLayout = {
   labelCol: {
@@ -37,15 +47,15 @@ const CreateAndEditForm = ({
   setScheduleMovie,
 }) => {
   const [form] = Form.useForm();
-  const normFile = (e) => {
-    console.log('Upload event:', e);
+  // const normFile = (e) => {
+  //   console.log('Upload event:', e);
 
-    if (Array.isArray(e)) {
-      return e;
-    }
+  //   if (Array.isArray(e)) {
+  //     return e;
+  //   }
 
-    return e && e.fileList;
-  };
+  //   return e && e.fileList;
+  // };
   return (
     <Modal
       visible={visible}
@@ -154,7 +164,7 @@ const CreateAndEditForm = ({
                 suffix="Phút"
               />
             </Form.Item>
-            <Form.Item
+            {/* <Form.Item
               name="upload"
               label="Upload"
               valuePropName="fileList"
@@ -163,7 +173,7 @@ const CreateAndEditForm = ({
               <Upload name="logo" action="/upload.do" listType="picture">
                 <Button icon={<UploadOutlined />}>Click to upload</Button>
               </Upload>
-            </Form.Item>
+            </Form.Item> */}
             <Form.Item name="description" label="Mô tả">
               <Editor valueUpdate={isUpdate ? movieUpdated.description : ''} />
             </Form.Item>

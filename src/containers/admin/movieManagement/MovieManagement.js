@@ -175,11 +175,11 @@ function MovieManagement(props) {
       key: 'description',
       width: 500,
     },
-    {
-      title: 'Hình ảnh',
-      dataIndex: 'image',
-      key: 'image',
-    },
+    // {
+    //   title: 'Hình ảnh',
+    //   dataIndex: 'image',
+    //   key: 'image',
+    // },
     {
       title: 'Hành động',
       key: 'action',
